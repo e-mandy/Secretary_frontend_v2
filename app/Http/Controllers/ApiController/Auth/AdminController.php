@@ -30,7 +30,5 @@ class AdminController extends Controller
                 "message" => $e->getMessage()
             ], 400);
         }
-
-
     }
 }
