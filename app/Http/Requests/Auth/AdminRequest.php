@@ -26,11 +26,11 @@ class AdminRequest extends FormRequest
             "email" => ["required", "string", "email", "unique:users"],
             "password" => [
                 "required",
-                "string", 
+                "string",
                 "confirmed",
                 Password::min(8)
                 ->letters()
-                ->numbers()                    
+                ->numbers()       
             ]
         ];
     }
