@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/admin/login', [AdminController::class, 'login']);
 
 
-Route::post('/secretary_login', [SecretaryController::class, 'login']);
-Route::post('/secretary/login', [SecretaryController::class, 'register']);
-Route::post('/secretary/email/verify/{id}/{hash}', [SecretaryController::class, 'verify'])->name('verification.verify')->middleware('signed');
+Route::post('/secretary/login', [SecretaryController::class, 'login']);
+Route::post('/secretary_register', [SecretaryController::class, 'register']);
+Route::get('/secretary/email/verify/{id}/{hash}', [SecretaryController::class, 'verify'])->name('verification.verify')->middleware('signed');

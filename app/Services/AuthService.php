@@ -9,6 +9,7 @@ use App\Mail\Auth\VerifyUserEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AuthService{
 
@@ -39,9 +40,9 @@ class AuthService{
 
     public function registerAsSecretary(RegisterSecretaryDTO  $data){
         // Check if there is already a user with the same email
-        $existingUser = User::where('email', $data->email);
+        $existingUser = User::where('email', $data->email)->first();
 
-        if($existingUser) throw new \Exception("Utilisateur déjà existant");
+        if($existingUser !== null) throw new \Exception("Utilisateur déjà existant");
 
         $newUser = User::create([
             "lastname" => $data->lastname,
@@ -50,9 +51,17 @@ class AuthService{
             "password" => Hash::make($data->password),
             "role" => "secretariat"
         ]);
+
+        $emailHash = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinute(20),
+            ['id' => $newUser->id, "hash" => sha1($newUser->email)]
+        );
+
+        $url = "http://localhost:8000/secretary/email/verify" . $emailHash;
         
         // Asynchronous send of mail
-        Mail::to($newUser)->send(new VerifyUserEmail($newUser));
+        Mail::to($newUser)->send(new VerifyUserEmail($newUser, $url));
     }
 
     public function loginAsSecretary(LoginSecretaryDTO $data){
