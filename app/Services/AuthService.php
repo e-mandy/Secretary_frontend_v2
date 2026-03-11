@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\DTOs\Auth\AdminDTO;
 use App\DTOs\Auth\LoginSecretaryDTO;
+use App\DTOs\Auth\RegisterEmailDTO;
 use App\DTOs\Auth\RegisterSecretaryDTO;
 use App\Mail\Auth\VerifyUserEmail;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -57,11 +59,9 @@ class AuthService{
             now()->addMinute(20),
             ['id' => $newUser->id, "hash" => sha1($newUser->email)]
         );
-
-        $url = "http://localhost:8000/secretary/email/verify" . $emailHash;
         
         // Asynchronous send of mail
-        Mail::to($newUser)->send(new VerifyUserEmail($newUser, $url));
+        Mail::to($newUser)->send(new VerifyUserEmail($newUser, $emailHash));
     }
 
     public function loginAsSecretary(LoginSecretaryDTO $data){
@@ -84,5 +84,31 @@ class AuthService{
             ],
             "access_token" => $token
         ];
+    }
+
+    public function verifyEmail(RegisterEmailDTO $data){
+        $createdUser = User::findOrFail($data->id);
+
+        if(!hash_equals((string) $data->hash, sha1($createdUser->getEmailForVerification()))) throw new Exception("Lien de vérification invalide");
+
+        if($createdUser->hasVerifiedEmail()) return [
+            "success" => false,
+            "message" => "Email déjà vérifié"
+        ];
+
+        if($createdUser->markEmailAsVerified()){
+
+        $token = $createdUser->createToken('Token Register User: '. $$createdUser->email);
+            return [
+                "success" => true,
+                "user" => [
+                    "email" => $createdUser->email,
+                    "lastname" => $createdUser->lastname,
+                    "firstname" => $createdUser->firstname,
+                    "role" => $createdUser->role
+                ],
+                "token" => $token
+            ];
+        } 
     }
 }

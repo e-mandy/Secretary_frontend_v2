@@ -50,4 +50,10 @@ class SecretaryController extends Controller
             ]);
         }
     }
+
+    public function verify(){
+        return response()->json([
+            "message" => "Everything is getting good"
+        ], 200);
+    }
 }
