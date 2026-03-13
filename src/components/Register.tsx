@@ -44,6 +44,7 @@ const Register = () => {
                             <Mail />
                             <input {...register('lastname')} className="outline-none flex-1 py-3 pl-2" type="text" name="lastname" id="lastname" />
                         </div>
+                            {errors.lastname?.message && (<span className="error-message">{errors.lastname?.message}</span>)}
                     </div>
 
                     <div className="my-3">
@@ -52,6 +53,7 @@ const Register = () => {
                             <Mail />
                             <input {...register('firstname')} className="outline-none flex-1 py-3 pl-2" type="text" name="firstname" id="firstname" />
                         </div>
+                            {errors.firstname?.message && (<span className="error-message">{errors.firstname?.message}</span>)}
                     </div>
 
                     <div className="my-3">
@@ -60,6 +62,7 @@ const Register = () => {
                             <Mail />
                             <input {...register('email')} className="outline-none flex-1 py-3 pl-2" type="text" name="email" id="email" />
                         </div>
+                            {errors.email?.message && (<span className="error-message">{errors.email?.message}</span>)}
                     </div>
 
                     <div className="my-3">
@@ -68,6 +71,7 @@ const Register = () => {
                             <Mail />
                             <input {...register('password')} className="outline-none flex-1 py-3 pl-2" type="text" name="password" id="password" />
                         </div>
+                            {errors.password?.message && (<span className="error-message">{errors.password?.message}</span>)}
                     </div>
 
                     <div className="my-3">
@@ -76,6 +80,7 @@ const Register = () => {
                             <Mail />
                             <input {...register('password_confirmation')} className="outline-none flex-1 py-3 pl-2" type="text" name="password_confirmation" id="password_confirmation" />
                         </div>
+                            {errors.password_confirmation?.message && (<span className="error-message">{errors.password_confirmation?.message}</span>)}
                     </div>
                     <button className="bg-[#111624] w-full text-white py-3 rounded-lg my-3">S'inscrire en tant que sécrétaire</button>
                     <p>Vous avez déjà un compte sécrétaire ? <span>Connectez-vous !!</span></p>

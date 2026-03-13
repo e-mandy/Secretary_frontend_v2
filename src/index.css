@@ -23,4 +23,8 @@ input{
         border-radius: 10px;
         margin-top: 6px;
     }
+
+    .error-message{
+        color: "#c41c2d",
+    }
 }
