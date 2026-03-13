@@ -1,7 +1,9 @@
-import { CircleDot, Info, MailSearch } from "lucide-react"
+import { CircleDot, Info, MailSearch, MoveLeft } from "lucide-react"
 import Spinner from "../../../components/Spinner"
 
 const EmailVerify = () => {
+
+
   return (
     <div className="h-screen w-screen flex">
       <div className="flex flex-col items-center mx-auto w-187.5 mt-32">
@@ -12,9 +14,10 @@ const EmailVerify = () => {
             <p className="text-xl font-semibold">En attente de vérification</p>
         </div>
         <p className="text-sm my-4">Cette page se refraichira automatiquement une fois la vérification terminée.</p>
-        <p className="text-center w-3/4 bg-[#1f2841] text-white p-3 rounded-lg font-semibold flex gap-2">
+        <p className="text-center w-3/4 bg-[#1f2841] text-white p-3 rounded-lg font-semibold flex gap-2 mb-8">
             <Info size={40} color="red"/>Nous vous avons envoyer un lien à votre adresse email. Cliquez s'il vous plait sur le lien pour confirmer votre adresse email et débuter votre journée avec Secretary Esgis.
         </p>
+        <p className="flex gap-2"><MoveLeft /> Retour à la page de connexion</p>
       </div>
     </div>
   )
