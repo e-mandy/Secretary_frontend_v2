@@ -1,11 +1,12 @@
 import { useEffect } from "react"
 import { useEmailVerify } from "../api/useEmailVerify"
-import { useParams, useSearchParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import Spinner from "../../../components/Spinner";
 import Success from "../../../components/Success";
 
 const SuccessOrFailEmailVerification = () => {
     const { isPending, mutate, isSuccess } = useEmailVerify();
+    const navigate = useNavigate();
 
     // We pick the id and the hash from the link sent in the user email
     const { id, hash } = useParams<{id: string, hash: string}>();
@@ -24,7 +25,15 @@ const SuccessOrFailEmailVerification = () => {
             expires: expirationValue,
             signature: signature
         });
-    })
+    });
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            navigate("/");
+        }, 2000);
+
+        return () => clearTimeout(timeoutId);
+    }, [isSuccess, navigate])
 
     if(isPending) return (
         <div className="flex w-screen h-screen m-auto">
