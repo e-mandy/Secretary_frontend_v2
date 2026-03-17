@@ -8,6 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/secretary/register" element={<Register />} />
+        <Route path="/secretary/email-sent" element={<EmailVerify />} />
         <Route path="/secretary/verify-email" element={<EmailVerify />} />
       </Routes>
     </BrowserRouter>
