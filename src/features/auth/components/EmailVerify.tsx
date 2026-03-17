@@ -28,26 +28,29 @@ const EmailVerify = () => {
     }, []);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            navigate("/");
-        }, 5000);
+        // const timeoutId = setTimeout(() => {
+        //     navigate("/");
+        // }, 5000);
 
-        return () => clearTimeout(timeoutId);
+        // return () => clearTimeout(timeoutId);
     }, [isSuccess, navigate])
 
-    if(isPending) return (
-        <div className="flex w-screen h-screen m-auto">
+    if(isPending){
+        return (
+        <div className="flex w-screen h-screen m-auto items-center justify-center">
             <Spinner width="30" height="30" color="white" visible={true} />
             <p>Patientez un petit moment encore !!</p>
         </div>
     )
-
-    if(isSuccess) return (
-        <div className="w-screen h-screen flex m-auto">
+    }else if(isSuccess){
+        return (
+        <div className="w-screen h-screen flex flex-col m-auto items-center justify-center">
             <Success />
-            <p>Bravo !! Votre email est vérifiée. Vous allez étre redirigé sur votre espace dans quelques instants.</p>
+            <p className="text-xl mb-2">Bravo !! Votre email est vérifiée.</p>
+            <p className="text-lg">Vous allez étre redirigé sur votre espace dans quelques instants.</p>
         </div>
     )
+    }
 }
 
 export default EmailVerify

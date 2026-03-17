@@ -27,6 +27,10 @@ export const useEmailVerify = () => {
             };
 
             setAuthStore(userData);
+        },
+        onError(error){
+            console.log(error);
+            alert(error);
         }
     });
 }
