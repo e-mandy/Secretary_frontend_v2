@@ -28,11 +28,11 @@ const EmailVerify = () => {
     }, []);
 
     useEffect(() => {
-        // const timeoutId = setTimeout(() => {
-        //     navigate("/");
-        // }, 5000);
+        const timeoutId = setTimeout(() => {
+            navigate("/");
+        }, 5000);
 
-        // return () => clearTimeout(timeoutId);
+        return () => clearTimeout(timeoutId);
     }, [isSuccess, navigate])
 
     if(isPending){
