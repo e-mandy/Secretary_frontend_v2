@@ -14,5 +14,5 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 
 
 Route::post('/secretary/login', [SecretaryController::class, 'login']);
-Route::post('/secretary_register', [SecretaryController::class, 'register']);
-Route::get('/secretary/email/verify/{id}/{hash}', [SecretaryController::class, 'verify'])->name('verification.verify')->middleware('signed');
+Route::post('/secretary/register', [SecretaryController::class, 'register']);
+Route::get('/secretary/email-verify/{id}/{hash}', [SecretaryController::class, 'verify'])->name('verification.verify')->middleware('signed');

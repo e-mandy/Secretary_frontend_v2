@@ -59,9 +59,16 @@ class AuthService{
             now()->addMinute(20),
             ['id' => $newUser->id, "hash" => sha1($newUser->email)]
         );
+
+        // We change the app_url with the frontend url
+        $frontendUrl = str_replace(
+            config('app.url') . '/api',
+            env('FRONTEND_URL'),
+            $emailHash
+        );
         
         // Asynchronous send of mail
-        Mail::to($newUser)->send(new VerifyUserEmail($newUser, $emailHash));
+        Mail::to($newUser)->send(new VerifyUserEmail($newUser, $frontendUrl));
     }
 
     public function loginAsSecretary(LoginSecretaryDTO $data){
@@ -91,14 +98,8 @@ class AuthService{
 
         if(!hash_equals((string) $data->hash, sha1($createdUser->getEmailForVerification()))) throw new Exception("Lien de vérification invalide");
 
-        if($createdUser->hasVerifiedEmail()) return [
-            "success" => false,
-            "message" => "Email déjà vérifié"
-        ];
-
         if($createdUser->markEmailAsVerified()){
-
-        $token = $createdUser->createToken('Token Register User: '. $$createdUser->email);
+            $token = $createdUser->createToken('Token Register User: '. $createdUser->email);
             return [
                 "success" => true,
                 "data" => [
@@ -111,6 +112,6 @@ class AuthService{
                     "token" => $token
                 ]
             ];
-        } 
+        }
     }
 }

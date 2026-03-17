@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ApiController\Auth;
 
 use App\DTOs\Auth\LoginSecretaryDTO;
+use App\DTOs\Auth\RegisterEmailDTO;
 use App\DTOs\Auth\RegisterSecretaryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginSecretaryRequest;
@@ -52,21 +53,16 @@ class SecretaryController extends Controller
     }
 
     public function verify($id, $hash){
+        $data = new RegisterEmailDTO((string) $id,  (string) $hash);
         try{
-            $response = $this->service->verifyEmail($id, $hash);
+            $response = $this->service->verifyEmail($data);
 
-            if(!$response['success']) {
-                return response()->json([
-                    "message" => "Email déjà vérifié",
-            ], 400);
-            }else{
-                return response()->json([
-                    "message" => "Utilisateur vérifié avec succès",
-                    "data" => [
-                        $response['data']
-                    ]
-                ], 200);
-            }
+            return response()->json([
+                "message" => "Utilisateur vérifié avec succès",
+                "data" => [
+                    $response['data']
+                ]
+            ], 200);
         }catch(Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
