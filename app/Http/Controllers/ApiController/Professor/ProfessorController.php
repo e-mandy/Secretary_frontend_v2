@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\ApiController\Professor;
 
+use App\DTOs\Professor\ProfessorStoreDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Professor\StoreProfessorRequest;
 use ProfessorService;
 
 class ProfessorController extends Controller
@@ -12,7 +14,9 @@ class ProfessorController extends Controller
     )
     {}
 
-    public function store(){
-        
+    public function store(StoreProfessorRequest $request){
+        $data = ProfessorStoreDTO::fromRequest($request);
+
+
     }
 }
