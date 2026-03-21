@@ -26,7 +26,7 @@ class ProfessorController extends Controller
         ], 200);
     }
 
-    public function store(StoreProfessorRequest $request){
+    public function create(StoreProfessorRequest $request){
         $data = ProfessorStoreDTO::fromRequest($request);
 
         $response = $this->service->store($data);
@@ -43,5 +43,12 @@ class ProfessorController extends Controller
         $data = ProfessorUpdateDTO::fromRequest($request);
 
         $response = $this->service->update($professor, $data);
+
+        return response()->json([
+            "type" => "Professor Update",
+            "data" => [
+                "professor" => $response
+            ]
+        ], 200);
     }
 }
