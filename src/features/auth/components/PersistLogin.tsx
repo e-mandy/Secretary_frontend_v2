@@ -5,7 +5,7 @@ import Spinner from '../../../components/Spinner';
 import { Outlet } from 'react-router-dom';
 
 const PersistLogin = () => {
-    const { data, isLoading, isSuccess } = useCheckAuth();
+    const { checkQuery: { data, isSuccess, isLoading } } = useCheckAuth();
     const { setAuthStore } = useAuthStore()
 
     useEffect(() => {

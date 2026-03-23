@@ -1,11 +1,11 @@
 import { useLayoutEffect } from "react"
 import { useAuthStore } from "../features/auth/store/auth.store";
 import { axiosPrivateInstance } from "../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useCheckAuth } from "./useCheckAuth";
 
 export const useAxiosPrivate = () => {
     const { token } = useAuthStore();
-    const navigate = useNavigate();
+    const { check } = useCheckAuth();
 
     useLayoutEffect(() => {
         const requestIntercetor = axiosPrivateInstance.interceptors.request.use(
@@ -22,14 +22,12 @@ export const useAxiosPrivate = () => {
 
         const responseInterceptor = axiosPrivateInstance.interceptors.response.use(
             response => response,
-            (error) => {
-                if(error?.response?.status === 401){
-                    // We have to remove the token from the cookie
-
-                    // Redirect on the login page.
-                    navigate('/secretary/login', {
-                        replace: true
-                    });
+            async (error) => {
+                const prevRequest = error?.config;
+                if(error?.response?.status === 401 && !prevRequest?.sent){
+                    const response = await check();
+                    prevRequest.headers["Authorization"] = `Bearer ${response.token}`;
+                    return axiosPrivateInstance(prevRequest);
                 }
                 return Promise.reject(error)
             }
