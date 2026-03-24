@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('refresh_token', function (Blueprint $table) {
+        Schema::create('blacklisted_access_token', function (Blueprint $table) {
             $table->id();
             $table->text('token');
-            $table->timestamp('revoked_at')->nullable();
             $table->timestamp('expires_at');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('refresh_token');
+        Schema::dropIfExists('blacklisted_access_token');
     }
 };
