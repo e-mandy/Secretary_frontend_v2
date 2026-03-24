@@ -20,11 +20,17 @@ class AdminController extends Controller
         try{
             $response = $this->service->loginAsAdmin($data);
 
+            $cookie = cookie('refreshToken', $response['refresh_token']);
+
             return response()->json([
                 "type" => "Admin Login",
-                "message" => "Utilisateur connecté avec succès",
-                "data" => $response
-            ]);
+                "message" => "Administrateur connecté avec succès",
+                "data" => [
+                    "user" => $response['user'],
+                    "access_token" => $response["access_token"]
+                ]
+            ])->withCookie($cookie);
+
         }catch(Exception $e){
             return response()->json([
                 "message" => $e->getMessage()

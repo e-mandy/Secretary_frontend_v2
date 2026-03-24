@@ -41,11 +41,17 @@ class SecretaryController extends Controller
         try{
             $response = $this->service->loginAsSecretary($data);
 
+            $cookie = cookie("refreshToken", $response['refresh_token']);
+
             return response()->json([
                 "type" => "Sécrétariat Login",
                 "message" => "Utilisateur connecté avec succès",
-                "data" => $response
-            ], 200);
+                "data" => [
+                    "user" => $response['user'],
+                    "access_token" => $response["access_token"]
+                ]
+            ], 200)->withCookie($cookie);
+
         }catch(Exception $e){
             return response()->json([
                 "message" => $e->getMessage()
@@ -58,13 +64,16 @@ class SecretaryController extends Controller
         try{
             $response = $this->service->verifyEmail($data);
 
-            $cookie = cookie("accessToken", $response['data']['token'], env('APP_TOKEN_DURATION'));
+            $cookie = cookie("refreshToken", $response['data']['refresh_token']);
+            
             return response()->json([
-                "message" => "Utilisateur vérifié avec succès",
+                "message" => "Sécrétaire vérifié avec succès",
                 "data" => [
-                    $response['data']
+                    "user" => $response["data"]['user'],
+                    "access_token" => $response["data"]["access_token"]
                 ]
             ], 200)->withCookie($cookie);
+
         }catch(Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
