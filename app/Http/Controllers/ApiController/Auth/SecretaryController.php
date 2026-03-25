@@ -8,6 +8,7 @@ use App\DTOs\Auth\RegisterSecretaryDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginSecretaryRequest;
 use App\Http\Requests\Auth\RegisterSecretaryRequest;
+use App\Models\RefreshToken;
 use App\Services\AuthService;
 use Exception;
 use Illuminate\Http\Request;
@@ -81,18 +82,11 @@ class SecretaryController extends Controller
         }
     }
 
-    public function checkAuth(Request $request){
-        // If we receive the user, that means that the token is still active.
-        $user = $request->user();
+    public function refresh(Request $request){
+        $refreshToken = $request->cookie("refreshToken");
 
-        $response = $this->service->check($user);
-
-        $cookie = cookie("accessToken", $response['token']);
-
-        return response()->json([
-            "type" => "Refresh User Token",
-            "message" => "Token is Ok",
-            "data" => $response
-        ], 200)->withCookie($cookie);
+        if(!$refreshToken) return response()->json([
+            "message" => "Token introuvable"
+        ], 401);
     }
 }

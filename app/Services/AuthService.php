@@ -137,7 +137,7 @@ class AuthService{
         }
     }
 
-    public function check(User $user){
+    public function refresh(User $user){
         $token = $user->createToken(
             'Token Connexion User: '. $user->email,
             ["*"],
