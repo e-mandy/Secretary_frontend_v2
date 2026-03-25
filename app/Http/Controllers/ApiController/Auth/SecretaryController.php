@@ -97,6 +97,15 @@ class SecretaryController extends Controller
 
         // Récupérez le user après tous les checks.
         $user = PersonalAccessToken::findToken($refreshToken)->tokenable;
+        
         $response = $this->service->refresh($user, $refreshToken);
+        
+        $cookie = cookie("refreshToken", $response["refresh_token"]);
+        
+        return response()->json([
+            "message" => "User re-logged",
+            "user" => $response["user"],
+            "access_token" => $response["access_token"]
+        ])->withCookie($cookie);
     }
 }
