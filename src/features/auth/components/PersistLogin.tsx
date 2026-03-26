@@ -27,9 +27,9 @@ const PersistLogin = () => {
     }, []);
 
   return isLoading ? (
-    <div className='h-screen w-screen flex m-auto'>
-        <Spinner width='30' height='30' color='red' visible={true} />
-        <p>Veuillez patienter un instant</p>
+    <div className='h-screen w-screen flex m-auto justify-center items-center flex-col gap-4'>
+        <Spinner width='40' height='40' color='red' visible={true} />
+        <p className='text-xl'>Veuillez patienter un instant</p>
     </div>
   ) : <Outlet />
 }
