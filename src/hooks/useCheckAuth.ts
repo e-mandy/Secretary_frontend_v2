@@ -1,25 +1,17 @@
+import axiosInstance from "../api/axiosInstance";
 import { useAuthStore } from "../features/auth/store/auth.store";
-import { useAxiosPrivate } from "./useAxiosPrivate";
-import { useQuery } from "@tanstack/react-query";
 
 
 
-export const useCheckAuth = () => {
-    const axiosPrivateInstance = useAxiosPrivate();
+export const useRefreshToken = () => {
     const { setAuthStore } = useAuthStore();
-    
-    const check = async() => {
-        const response = await axiosPrivateInstance.get('/refresh');
-        // Make the token available immediately in the app
-        setAuthStore(response.data);
-        return response.data;
+
+    const refresh = async () => {
+        const response = await axiosInstance.get("/refresh");
+        setAuthStore({ user: response.data.user, token: response.data.access_token});
+
+        return response.data.access_token;
     }
 
-    const checkQuery = useQuery({
-        queryKey: ['user'],
-        queryFn: check,
-        throwOnError: true,
-    });
-
-    return { check, checkQuery };
+    return refresh;
 }
