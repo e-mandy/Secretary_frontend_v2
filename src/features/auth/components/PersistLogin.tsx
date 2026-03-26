@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import Spinner from '../../../components/Spinner';
 import { Outlet } from 'react-router-dom';
 import { useRefreshToken } from '../../../hooks/useRefreshToken';
+import { useAuth } from '../hooks/useAuth';
 
 const PersistLogin = () => {
     const refresh = useRefreshToken();
     const [isLoading, setIsLoading] = useState(true);
+    const isAuth = useAuth();
 
     useEffect(() => {
         const verifyRefreshToken = async () => {
@@ -18,7 +20,7 @@ const PersistLogin = () => {
             }
         }
 
-        verifyRefreshToken();
+        isAuth ? setIsLoading(false) : verifyRefreshToken();
     }, []);
 
   return isLoading ? (
