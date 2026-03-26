@@ -25,11 +25,16 @@ export const useAxiosPrivate = () => {
             async (error) => {
                 const prevRequest = error?.config;
                 if(error?.response?.status === 401 && !prevRequest?.sent){
-                    const token = await refresh();
-                    prevRequest.headers["Authorization"] = `Bearer ${token}`;
-                    return axiosPrivateInstance(prevRequest);
+                    prevRequest.sent = true;
+                    try{
+                        const token = await refresh();
+                        prevRequest.headers["Authorization"] = `Bearer ${token}`;
+                        return axiosPrivateInstance(prevRequest);
+                    }catch(error){
+                        return Promise.reject(error)
+                    }
                 }
-                return Promise.reject(error)
+                return Promise.reject(error);
             }
         );
 

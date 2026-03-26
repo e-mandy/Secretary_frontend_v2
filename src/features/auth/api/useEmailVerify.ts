@@ -22,8 +22,8 @@ export const useEmailVerify = () => {
         onSuccess: (data) => {
             console.log("Everything is good");
             const userData: UserApiResponse = {
-                user: data.user,
-                token: data.token
+                user: data.data.user,
+                token: data.data.access_token
             };
 
             setAuthStore(userData);

@@ -19,8 +19,8 @@ const useLogin = () => {
         mutationFn: login,
         onSuccess: (data) => {
             const user: UserApiResponse = {
-                user: data.user,
-                token: data.token
+                user: data.data.user,
+                token: data.data.access_token
             };
             setAuthStore(user);   
             navigate("/");
