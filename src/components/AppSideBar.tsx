@@ -1,18 +1,22 @@
 import { LayoutDashboard, School, Settings, Users } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
+import { useAuthStore } from "../features/auth/store/auth.store"
 
 const AppSideBar = () => {
 
   const navItems = [
-  {
-    label: "Menu Principal",
-    items: [
-      { title: "Tableau de Bord", icon: LayoutDashboard, href: "/" },
-      { title: "Professeurs", icon: Users, href: "/users" },
-      { title: "Documents", icon: Settings, href: "/settings" },
-    ],
-  },
-]
+    {
+      label: "Menu Principal",
+      items: [
+        { title: "Tableau de Bord", icon: LayoutDashboard, href: "/" },
+        { title: "Professeurs", icon: Users, href: "/professors" },
+        { title: "Documents", icon: Settings, href: "/documents" },
+      ],
+    },
+  ]
+
+  const { user } = useAuthStore();
+  console.log(user);
 
   return (
     <Sidebar className="w-full">
@@ -53,8 +57,8 @@ const AppSideBar = () => {
             className="h-10 w-10 rounded-full"
           />
           <div className="flex flex-col">
-            <span className="text-base font-medium">Mon Compte</span>
-            <span className="text-sm text-muted-foreground">m@example.com</span>
+            <span className="text-base font-medium">{user?.firstname} {user?.lastname}</span>
+            <span className="text-sm text-muted-foreground">{user?.email}</span>
           </div>
         </div>
       </SidebarFooter>
