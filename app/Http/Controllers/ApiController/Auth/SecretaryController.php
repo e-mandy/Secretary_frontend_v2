@@ -85,6 +85,7 @@ class SecretaryController extends Controller
 
     public function refresh(Request $request){
         $refreshToken = $request->cookie("refreshToken");
+        var_dump($refreshToken);
 
         if(!$refreshToken) return response()->json([
             "message" => "Token introuvable"

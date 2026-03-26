@@ -29,7 +29,7 @@ class AuthService{
         
         $refresh_token = $user->generateRefreshToken();
 
-        $user->refresh_tokens()->create([
+        $user->refresh_token()->create([
             "token" => $refresh_token->plainTextToken,
             "expires_at" => $user->getTokenExpiryDelay($refresh_token)
         ]);

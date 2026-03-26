@@ -48,8 +48,8 @@ trait HasAuthToken{
     /**
      * The function which determines the token expiry delay
      */
-    public function getTokenExpiryDelay(NewAccessToken $token): int
+    public function getTokenExpiryDelay(NewAccessToken $token)
     {
-        return now()->diffInSeconds($token->accessToken->expires_at);
+        return $token->accessToken->expires_at;
     }
 }
