@@ -1,4 +1,4 @@
-import { LayoutDashboard, School, Settings, User2, Users } from "lucide-react"
+import { LayoutDashboard, School, Settings, Users } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
 
 const AppSideBar = () => {
@@ -45,14 +45,18 @@ const AppSideBar = () => {
           </SidebarGroup>
         ))}
       </SidebarContent>
-       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton>
-              <User2 /> Username
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+       <SidebarFooter className="mb-2">
+         <div className="flex items-center gap-3 px-2 py-3">
+          <img
+            src="https://github.com/shadcn.png"
+            alt="avatar"
+            className="h-10 w-10 rounded-full"
+          />
+          <div className="flex flex-col">
+            <span className="text-base font-medium">Mon Compte</span>
+            <span className="text-sm text-muted-foreground">m@example.com</span>
+          </div>
+        </div>
       </SidebarFooter>
     </Sidebar>
   )
