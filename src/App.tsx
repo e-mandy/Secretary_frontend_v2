@@ -22,6 +22,7 @@ function App() {
           <Route element={<AppLayout />}>
             {/** Now we can set each module route. */}
             <Route path="/" element={<Dashboard />} />
+            
           </Route>
         </Route>
       </Routes>

@@ -13,7 +13,7 @@ const AppLayout = () => {
                     <AppSideBar />
                 </div>
                 <div className="md:ml-72 relative w-full min-h-screen bg-yellow-300">
-                    <div className="fixed w-full bg-blue-300 h-20">
+                    <div className="absolute top-0 w-full bg-white h-20">
                         <NavBar />
                     </div>
                     <div className="mt-24">
