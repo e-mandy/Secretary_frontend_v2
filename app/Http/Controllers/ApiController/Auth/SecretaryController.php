@@ -20,6 +20,38 @@ class SecretaryController extends Controller
         public AuthService $service
     ){}
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/register",
+     *     summary="Inscription d'une secrétaire",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"firstname","lastname","email","password"},
+     *             @OA\Property(property="firstname", type="string", example="Marie"),
+     *             @OA\Property(property="lastname", type="string", example="Dupont"),
+     *             @OA\Property(property="email", type="string", example="marie@example.com"),
+     *             @OA\Property(property="password", type="string", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Utilisateur créé avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="type", type="string", example="Sécrétariat Register"),
+     *             @OA\Property(property="message", type="string", example="Utilisateur crée avec succès")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erreur de validation ou email déjà utilisé",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cet email est déjà utilisé")
+     *         )
+     *     )
+     * )
+     */
     public function register(RegisterSecretaryRequest $request){
         $data = RegisterSecretaryDTO::fromRequest($request);
 
@@ -37,6 +69,47 @@ class SecretaryController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/auth/login",
+     *     summary="Connexion d'une secrétaire",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string", example="marie@example.com"),
+     *             @OA\Property(property="password", type="string", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Connexion réussie",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="type", type="string", example="Sécrétariat Login"),
+     *             @OA\Property(property="message", type="string", example="Utilisateur connecté avec succès"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="email", type="string"),
+     *                     @OA\Property(property="lastname", type="string"),
+     *                     @OA\Property(property="firstname", type="string"),
+     *                     @OA\Property(property="role", type="string")
+     *                 ),
+     *                 @OA\Property(property="access_token", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Données invalides",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Données invalides")
+     *         )
+     *     )
+     * )
+     */
     public function login(LoginSecretaryRequest $request){
         $data = LoginSecretaryDTO::fromRequest($request);
 
@@ -61,6 +134,52 @@ class SecretaryController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/verify/{id}/{hash}",
+     *     summary="Vérification de l'email d'une secrétaire",
+     *     tags={"Auth"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="hash",
+     *         in="path",
+     *         required=true,
+     *         description="Hash de vérification",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Secrétaire vérifiée avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Sécrétaire vérifié avec succès"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="email", type="string"),
+     *                     @OA\Property(property="lastname", type="string"),
+     *                     @OA\Property(property="firstname", type="string"),
+     *                     @OA\Property(property="role", type="string")
+     *                 ),
+     *                 @OA\Property(property="access_token", type="string")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Lien de vérification invalide",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lien invalide")
+     *         )
+     *     )
+     * )
+     */
     public function verify($id, $hash){
         $data = new RegisterEmailDTO((string) $id,  (string) $hash);
         try{
@@ -83,6 +202,41 @@ class SecretaryController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/refresh",
+     *     summary="Rafraîchissement du token d'accès",
+     *     tags={"Auth"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token rafraîchi avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="User re-logged"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="lastname", type="string"),
+     *                 @OA\Property(property="firstname", type="string"),
+     *                 @OA\Property(property="role", type="string")
+     *             ),
+     *             @OA\Property(property="access_token", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Token introuvable",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token introuvable")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Token invalide ou expiré",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Token invalide")
+     *         )
+     *     )
+     * )
+     */
     public function refresh(Request $request){
 
         

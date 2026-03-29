@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services;
+
 use App\Http\Requests\StoreContractRequest;
 use App\Models\Document;
 use Illuminate\Http\UploadedFile;
