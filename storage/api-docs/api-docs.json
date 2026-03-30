@@ -496,13 +496,13 @@
                 ]
             }
         },
-        "/api/professors": {
+        "/api/secretary/professors": {
             "get": {
                 "tags": [
                     "Professors"
                 ],
                 "summary": "Lister tous les professeurs",
-                "operationId": "3ad078f5b9cc0657748a4099913b5c58",
+                "operationId": "32de5d18f6479938bfc36f9a51cc00e1",
                 "responses": {
                     "200": {
                         "description": "Liste des professeurs",
@@ -572,7 +572,7 @@
                     "Professors"
                 ],
                 "summary": "Créer un professeur",
-                "operationId": "0f47f8689f6a1643e05b80359c4dcf05",
+                "operationId": "c37c80f8278c3f24baf00812e4d83b1a",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -673,13 +673,13 @@
                 ]
             }
         },
-        "/api/professors/{professor}": {
+        "/api/secretary/professors/{professor}": {
             "put": {
                 "tags": [
                     "Professors"
                 ],
                 "summary": "Modifier un professeur",
-                "operationId": "e07afc1aedf6ebddfbd65c4c9c065a2a",
+                "operationId": "6f31649eb7e890b1450eb3d97e8c7861",
                 "parameters": [
                     {
                         "name": "professor",
@@ -791,7 +791,7 @@
                     "Professors"
                 ],
                 "summary": "Supprimer un professeur",
-                "operationId": "7382d7fa2fd124fac7f5da65ba1a2a7d",
+                "operationId": "da91a6c6dafcf79692c709958352f501",
                 "parameters": [
                     {
                         "name": "professor",

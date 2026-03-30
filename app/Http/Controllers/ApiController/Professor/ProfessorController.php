@@ -19,7 +19,7 @@ class ProfessorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/professors",
+     *     path="/api/secretary/professors",
      *     summary="Lister tous les professeurs",
      *     tags={"Professors"},
      *     security={{"bearerAuth":{}}},
@@ -61,7 +61,7 @@ class ProfessorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/professors",
+     *     path="/api/secretary/professors",
      *     summary="Créer un professeur",
      *     tags={"Professors"},
      *     security={{"bearerAuth":{}}},
@@ -117,7 +117,7 @@ class ProfessorController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/professors/{professor}",
+     *     path="/api/secretary/professors/{professor}",
      *     summary="Modifier un professeur",
      *     tags={"Professors"},
      *     security={{"bearerAuth":{}}},
@@ -179,7 +179,7 @@ class ProfessorController extends Controller
 
     /**
  * @OA\Delete(
- *     path="/api/professors/{professor}",
+ *     path="/api/secretary/professors/{professor}",
  *     summary="Supprimer un professeur",
  *     tags={"Professors"},
  *     security={{"bearerAuth":{}}},
