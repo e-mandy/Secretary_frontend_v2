@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import { DataTable } from "../../../components/data-table"
 import { columns } from "../datas/columns"
 
@@ -16,6 +17,8 @@ const Professors = () => {
             firstname: "Jacques"
         }
     ]
+
+    const navigate = useNavigate();
   return (
     <div className="w-full h-full">
         <div className="flex justify-between">
@@ -24,7 +27,12 @@ const Professors = () => {
                 <p className="">Ayez le contrôle sur l'ensemble des professeurs du système.</p>
             </div>
             <div>
-                <button className="px-4 py-2 bg-primary text-white rounded-xl text-lg cursor-pointer">Ajouter un professeur</button>
+                <button 
+                    className="px-4 py-2 bg-primary text-white rounded-xl text-lg cursor-pointer"
+                    onClick={() => navigate("/professor/create")}
+                >
+                    Ajouter un professeur
+                </button>
             </div>
         </div>
         <div className="py-10">

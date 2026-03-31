@@ -56,6 +56,7 @@ export const columns: ColumnDef<ProfessorType>[] = [
         cell: ({ row }) => {
             // Data from the professor type
             const professorData = row.original;
+            console.log(professorData);
             
             return (
                 <DropdownMenu>
