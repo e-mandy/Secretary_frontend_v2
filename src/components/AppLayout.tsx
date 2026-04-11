@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
-import { SidebarProvider } from "./ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "./AppSideBar";
 import PathFormater from "./PathFormater";
 
