@@ -13,7 +13,6 @@ const PersistLogin = () => {
   const isCalled = useRef(false);
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_BACKEND_URL);
     const verifyRefreshToken = async () => {
       try {
         // We don't need to refresh if the auth store isn't empty.
