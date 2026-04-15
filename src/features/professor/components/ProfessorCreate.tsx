@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { professorSchema } from "../schemas/professor.schema";
 import { useRef, type ChangeEvent } from "react";
+import { getExtension } from "@/utils/getMime";
 
 const ProfessorCreate = () => {
   const fileInput = useRef<null | HTMLInputElement>(null);
@@ -23,7 +24,6 @@ const ProfessorCreate = () => {
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      console.log(files);
     }
   };
 
