@@ -2,11 +2,14 @@ import { Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { professorSchema } from "../schemas/professor.schema";
-import { useRef, type ChangeEvent } from "react";
-import { getExtension } from "@/utils/getMime";
+import { useRef, useState, type ChangeEvent } from "react";
+import { getFormatedFiles } from "@/utils/getFormatedFiles";
+import type { FileType } from "../schemas/professeur_files.schema";
+import UploadedFileView from "@/components/UploadedFileView";
 
 const ProfessorCreate = () => {
   const fileInput = useRef<null | HTMLInputElement>(null);
+  const [formatedFiles, setFormatedFiles] = useState<FileType[] | []>([]);
 
   const {
     register,
@@ -24,6 +27,7 @@ const ProfessorCreate = () => {
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+      setFormatedFiles((prev) => [...prev, ...getFormatedFiles(files)]);
     }
   };
 
@@ -134,6 +138,10 @@ const ProfessorCreate = () => {
                 multiple
               />
               <p>Téléversez les documents du professeur ici.</p>
+            </div>
+            <div>
+              {formatedFiles &&
+                formatedFiles.map((f) => <UploadedFileView {...f} />)}
             </div>
           </div>
         </div>
