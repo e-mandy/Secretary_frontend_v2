@@ -1,11 +1,16 @@
 import type { FileType } from "@/features/professor/schemas/professeur_files.schema";
-import secretary from "../assets/auth/secretary.jpeg";
+
+import { getCorrectIcon } from "@/utils/getCorrectIcon";
 
 const UploadedFileView = ({ ...data }: FileType) => {
+  const fileIcon = getCorrectIcon(data.extension);
+
   return (
     <div className="flex items-center gap-4 my-6">
-      <div className="rounded-full md:h-14 md:w-14 overflow-hidden">
-        <img src={secretary} alt="" className="h-full w-full" />
+      <div
+        className={`rounded-full md:h-14 md:w-14 overflow-hidden flex items-center justify-center ${fileIcon?.bg} ${fileIcon?.text}`}
+      >
+        {fileIcon?.icon}
       </div>
       <div>
         <div>
