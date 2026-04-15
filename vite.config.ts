@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://secretary-backend.free.laravel.cloud",
+        target: "http://localhost:8000",
         changeOrigin: true,
       },
     },

@@ -2,14 +2,30 @@ import { Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { professorSchema } from "../schemas/professor.schema";
+import { useRef, type ChangeEvent } from "react";
 
 const ProfessorCreate = () => {
+  const fileInput = useRef<null | HTMLInputElement>(null);
+
   const {
     register,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(professorSchema),
   });
+
+  const handleInputClick = () => {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  };
+
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      console.log(files);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -106,6 +122,19 @@ const ProfessorCreate = () => {
             <h5 className="font-bold">
               Enregistrer des documents propres au professeur (Optionnel)
             </h5>
+            <div
+              onClick={handleInputClick}
+              className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
+            >
+              <input
+                type="file"
+                onChange={handleFileInputChange}
+                className="hidden"
+                ref={fileInput}
+                multiple
+              />
+              <p>Téléversez les documents du professeur ici.</p>
+            </div>
           </div>
         </div>
       </form>
