@@ -9,7 +9,7 @@ const AppLayout = () => {
     /** We have to set up the default layout for the app. */
   }
   return (
-    <div className="w-screen flex relative">
+    <div className="flex relative overflow-x-hidden max-w-screen">
       <SidebarProvider defaultOpen>
         <div className="w-72 fixed left-0 h-screen">
           <AppSideBar />

@@ -5,7 +5,7 @@ import {
   professorSchema,
   type ProfessorType,
 } from "../schemas/professor.schema";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { getFormatedFiles } from "@/utils/getFormatedFiles";
 import type { FileType } from "../schemas/professeur_files.schema";
 import UploadedFileView from "@/components/UploadedFileView";
@@ -18,7 +18,8 @@ const ProfessorCreate = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+    setValue,
+  } = useForm<ProfessorType>({
     resolver: zodResolver(professorSchema),
   });
 
@@ -28,10 +29,19 @@ const ProfessorCreate = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      setFormatedFiles((prev) => [...prev, ...getFormatedFiles(files)]);
+      const newFiles = [...formatedFiles, ...getFormatedFiles(files)];
+      setFormatedFiles(newFiles);
+
+      setValue("documents", newFiles);
+
+      if (e.target.value) e.target.value = "";
     }
   };
 
@@ -40,7 +50,7 @@ const ProfessorCreate = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-hidden">
       <div className="mb-14">
         <h1 className="font-extrabold text-3xl mb-2">
           Création d'un professeur
@@ -140,7 +150,7 @@ const ProfessorCreate = () => {
                 className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
               >
                 <input
-                  {...register("documents")}
+                  name="documents"
                   type="file"
                   onChange={handleFileInputChange}
                   className="hidden"
