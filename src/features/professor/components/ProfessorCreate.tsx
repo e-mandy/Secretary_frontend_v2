@@ -1,7 +1,10 @@
 import { Mail, User } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { professorSchema } from "../schemas/professor.schema";
+import {
+  professorSchema,
+  type ProfessorType,
+} from "../schemas/professor.schema";
 import { useRef, useState, type ChangeEvent } from "react";
 import { getFormatedFiles } from "@/utils/getFormatedFiles";
 import type { FileType } from "../schemas/professeur_files.schema";
@@ -32,9 +35,9 @@ const ProfessorCreate = () => {
     }
   };
 
-  const onSubmit:   = () => {
-
-  }
+  const onSubmit: SubmitHandler<ProfessorType> = (profFormData) => {
+    console.log(profFormData);
+  };
 
   return (
     <div className="w-full">
@@ -46,7 +49,7 @@ const ProfessorCreate = () => {
           Un formulaire complet pour l'ajout d'un nouveau professeur.
         </p>
       </div>
-      <form onSubmit={}>
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex mb-14">
           <div className="w-2/5">
             <h3 className="font-bold text-xl">Information personnelles</h3>
@@ -127,8 +130,8 @@ const ProfessorCreate = () => {
               Définition des attributs professionnels du professeur.
             </p>
           </div>
-          <div className="w-[55%]">
-            <div className="bg-white shadow-sm p-6 rounded-xl mx-auto">
+          <div className="w-[55%] mx-auto">
+            <div className="bg-white shadow-sm p-6 rounded-xl">
               <h5 className="font-bold">
                 Enregistrer des documents propres au professeur (Optionnel)
               </h5>
@@ -137,6 +140,7 @@ const ProfessorCreate = () => {
                 className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
               >
                 <input
+                  {...register("documents")}
                   type="file"
                   onChange={handleFileInputChange}
                   className="hidden"
@@ -144,13 +148,23 @@ const ProfessorCreate = () => {
                   multiple
                 />
                 <p>Téléversez les documents du professeur ici.</p>
+                {errors.documents?.message && (
+                  <span className="error-message">
+                    {errors.documents?.message}
+                  </span>
+                )}
               </div>
               <div>
                 {formatedFiles &&
-                  formatedFiles.map((f) => <UploadedFileView {...f} />)}
+                  formatedFiles.map((f) => (
+                    <UploadedFileView {...f} key={f.id} />
+                  ))}
               </div>
             </div>
-            <button type="submit" className="bg-primary w-full my-4">
+            <button
+              type="submit"
+              className="bg-primary w-full my-4 py-4 text-white rounded-lg cursor-pointer"
+            >
               Valider
             </button>
           </div>

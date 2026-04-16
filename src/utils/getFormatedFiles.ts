@@ -4,6 +4,7 @@ import { getExtension } from "./getMime";
 export const getFormatedFiles = (files: Array<File>): FileType[] => {
   const formatedFiles = files.map((file) => {
     return {
+      id: Math.random().toString(),
       name: file.name,
       file: file,
       extension: getExtension(file),
