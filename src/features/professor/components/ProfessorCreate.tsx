@@ -14,6 +14,7 @@ const ProfessorCreate = () => {
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm({
     resolver: zodResolver(professorSchema),
   });
@@ -31,6 +32,10 @@ const ProfessorCreate = () => {
     }
   };
 
+  const onSubmit:   = () => {
+
+  }
+
   return (
     <div className="w-full">
       <div className="mb-14">
@@ -41,7 +46,7 @@ const ProfessorCreate = () => {
           Un formulaire complet pour l'ajout d'un nouveau professeur.
         </p>
       </div>
-      <form>
+      <form onSubmit={}>
         <div className="flex mb-14">
           <div className="w-2/5">
             <h3 className="font-bold text-xl">Information personnelles</h3>
@@ -122,27 +127,32 @@ const ProfessorCreate = () => {
               Définition des attributs professionnels du professeur.
             </p>
           </div>
-          <div className="w-[55%] bg-white shadow-sm p-6 rounded-xl mx-auto">
-            <h5 className="font-bold">
-              Enregistrer des documents propres au professeur (Optionnel)
-            </h5>
-            <div
-              onClick={handleInputClick}
-              className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
-            >
-              <input
-                type="file"
-                onChange={handleFileInputChange}
-                className="hidden"
-                ref={fileInput}
-                multiple
-              />
-              <p>Téléversez les documents du professeur ici.</p>
+          <div className="w-[55%]">
+            <div className="bg-white shadow-sm p-6 rounded-xl mx-auto">
+              <h5 className="font-bold">
+                Enregistrer des documents propres au professeur (Optionnel)
+              </h5>
+              <div
+                onClick={handleInputClick}
+                className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
+              >
+                <input
+                  type="file"
+                  onChange={handleFileInputChange}
+                  className="hidden"
+                  ref={fileInput}
+                  multiple
+                />
+                <p>Téléversez les documents du professeur ici.</p>
+              </div>
+              <div>
+                {formatedFiles &&
+                  formatedFiles.map((f) => <UploadedFileView {...f} />)}
+              </div>
             </div>
-            <div>
-              {formatedFiles &&
-                formatedFiles.map((f) => <UploadedFileView {...f} />)}
-            </div>
+            <button type="submit" className="bg-primary w-full my-4">
+              Valider
+            </button>
           </div>
         </div>
       </form>
