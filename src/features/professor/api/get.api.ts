@@ -1,9 +1,9 @@
-import axios from "axios";
+import { axiosPrivateInstance } from "@/api/axiosInstance";
 
 const getProfesseur = async () => {
-  const response = await axios.get("/secretary/professors");
+  const response = await axiosPrivateInstance.get("/secretary/professors");
 
-  return response.data;
+  return response.data.data;
 };
 
 export default getProfesseur;

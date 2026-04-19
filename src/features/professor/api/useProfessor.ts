@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { create, getProfesseur } from "./index";
 
-export const useProfessorCreate = () => {
+export const useProfessor = () => {
   const [error, setError] = useState<null | Error>(null);
 
   const getAllProfessors = useQuery({
