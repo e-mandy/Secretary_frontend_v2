@@ -23,7 +23,7 @@ const frameworks = [
   "Astro",
 ] as const;
 
-export function ComboboxMultiple() {
+export function ComboboxMultiple({ ...data }: OptionsType) {
   const anchor = useComboboxAnchor();
 
   return (

@@ -9,6 +9,12 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { getFormatedFiles } from "@/utils/getFormatedFiles";
 import type { FileType } from "../schemas/professeur_files.schema";
 import UploadedFileView from "@/components/UploadedFileView";
+import { ComboboxMultiple } from "@/components/MultiSelect";
+
+type OptionsType = {
+  id: string;
+  name: string;
+};
 
 const ProfessorCreate = () => {
   const fileInput = useRef<null | HTMLInputElement>(null);
@@ -131,6 +137,7 @@ const ProfessorCreate = () => {
                 <span className="error-message">{errors.email?.message}</span>
               )}
             </div>
+            <ComboboxMultiple />
           </div>
         </div>
         <div className="flex">
