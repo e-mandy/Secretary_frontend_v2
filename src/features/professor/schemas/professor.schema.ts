@@ -5,7 +5,7 @@ export const professorSchema = z.object({
   email: z.email(),
   lastname: z.string(),
   firstname: z.string(),
-  documents: z.array(fileSchema).optional(),
+  matters: z.array(),
 });
 
 export type ProfessorType = z.infer<typeof professorSchema>;

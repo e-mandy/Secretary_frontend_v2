@@ -1,5 +1,5 @@
 import { Mail, User } from "lucide-react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   professorSchema,
@@ -10,8 +10,9 @@ import { getFormatedFiles } from "@/utils/getFormatedFiles";
 import type { FileType } from "../schemas/professeur_files.schema";
 import UploadedFileView from "@/components/UploadedFileView";
 import { ComboboxMultiple } from "@/components/MultiSelect";
+import { useMatter } from "@/features/matter/api/useMatter";
 
-type OptionsType = {
+export type OptionsType = {
   id: string;
   name: string;
 };
@@ -24,10 +25,15 @@ const ProfessorCreate = () => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
     setValue,
   } = useForm<ProfessorType>({
     resolver: zodResolver(professorSchema),
   });
+
+  const {
+    get: { data: options },
+  } = useMatter();
 
   const handleInputClick = () => {
     if (fileInput.current) {
@@ -137,7 +143,9 @@ const ProfessorCreate = () => {
                 <span className="error-message">{errors.email?.message}</span>
               )}
             </div>
-            <ComboboxMultiple />
+            <Controller name="matters" control={control}>
+              <ComboboxMultiple data={options} />
+            </Controller>
           </div>
         </div>
         <div className="flex">

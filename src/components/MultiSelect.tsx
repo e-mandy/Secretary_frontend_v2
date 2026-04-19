@@ -14,24 +14,17 @@ import {
   ComboboxValue,
   useComboboxAnchor,
 } from "@/components/ui/combobox";
+import type { OptionsType } from "@/features/professor/components/ProfessorCreate";
 
-const frameworks = [
-  "Next.js",
-  "SvelteKit",
-  "Nuxt.js",
-  "Remix",
-  "Astro",
-] as const;
-
-export function ComboboxMultiple({ ...data }: OptionsType) {
+export function ComboboxMultiple({ data: options }: { data: OptionsType[] }) {
   const anchor = useComboboxAnchor();
 
   return (
     <Combobox
       multiple
       autoHighlight
-      items={frameworks}
-      defaultValue={[frameworks[0]]}
+      items={options}
+      defaultValue={["Mathematic"]}
     >
       <ComboboxChips ref={anchor} className="w-full max-w-xs">
         <ComboboxValue>
@@ -49,8 +42,8 @@ export function ComboboxMultiple({ ...data }: OptionsType) {
         <ComboboxEmpty>No items found.</ComboboxEmpty>
         <ComboboxList>
           {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
+            <ComboboxItem key={item.id} value={item.id}>
+              {item.name}
             </ComboboxItem>
           )}
         </ComboboxList>
