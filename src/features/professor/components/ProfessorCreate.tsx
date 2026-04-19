@@ -9,12 +9,12 @@ import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { getFormatedFiles } from "@/utils/getFormatedFiles";
 import type { FileType } from "../schemas/professeur_files.schema";
 import UploadedFileView from "@/components/UploadedFileView";
-import { ComboboxMultiple } from "@/components/MultiSelect";
 import { useMatter } from "@/features/matter/api/useMatter";
+import { MultiSelect } from "@/components/multi-select";
 
 export type OptionsType = {
-  id: string;
-  name: string;
+  value: string;
+  label: string;
 };
 
 const ProfessorCreate = () => {
@@ -29,11 +29,20 @@ const ProfessorCreate = () => {
     setValue,
   } = useForm<ProfessorType>({
     resolver: zodResolver(professorSchema),
+    defaultValues: {
+      matters: [],
+    },
   });
 
   const {
-    get: { data: options },
+    get: { data },
   } = useMatter();
+
+  const options =
+    data?.map((value) => ({
+      value: value.id,
+      label: value.name,
+    })) ?? [];
 
   const handleInputClick = () => {
     if (fileInput.current) {
@@ -143,14 +152,22 @@ const ProfessorCreate = () => {
                 <span className="error-message">{errors.email?.message}</span>
               )}
             </div>
-            <Controller name="matters" control={control}>
-              <ComboboxMultiple data={options} />
-            </Controller>
+            <Controller
+              control={control}
+              name="matters"
+              render={({ field }) => (
+                <MultiSelect
+                  options={options}
+                  value={field.value.map((option) => option.name)}
+                  onValueChange={field.onChange}
+                />
+              )}
+            />
           </div>
         </div>
         <div className="flex">
           <div className="w-2/5">
-            <h3 className="font-bold text-xl">Documents professionnelles</h3>
+            <h3 className="font-bold text-xl">Documents professionnels</h3>
             <p className="text-gray-500">
               Définition des attributs professionnels du professeur.
             </p>
