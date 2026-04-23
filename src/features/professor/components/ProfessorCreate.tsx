@@ -40,7 +40,7 @@ const ProfessorCreate = () => {
 
   const options =
     data?.map((value) => ({
-      value: value.id,
+      value: value.id.toString(),
       label: value.name,
     })) ?? [];
 
@@ -152,17 +152,39 @@ const ProfessorCreate = () => {
                 <span className="error-message">{errors.email?.message}</span>
               )}
             </div>
-            <Controller
-              control={control}
-              name="matters"
-              render={({ field }) => (
-                <MultiSelect
-                  options={options}
-                  value={field.value.map((option) => option.name)}
-                  onValueChange={field.onChange}
-                />
-              )}
-            />
+            <div className="my-3 flex-1">
+              <label htmlFor="email" className="font-semibold">
+                Matières enseignées
+              </label>
+              <Controller
+                control={control}
+                name="matters"
+                render={({ field }) => (
+                  <MultiSelect
+                    className="py-4"
+                    options={options}
+                    value={field.value.map((option) => option.id)}
+                    onValueChange={(values) =>
+                      field.onChange(
+                        values
+                          .map((v) => {
+                            console.log(typeof v);
+                            const option = data?.find(
+                              (matter) => matter.id == v,
+                            );
+                            console.log(option);
+                            return {
+                              id: option?.id.toString(),
+                              name: option?.name.toString(),
+                            };
+                          })
+                          .filter(Boolean),
+                      )
+                    }
+                  />
+                )}
+              />
+            </div>
           </div>
         </div>
         <div className="flex">
