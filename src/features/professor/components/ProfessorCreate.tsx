@@ -12,6 +12,8 @@ import UploadedFileView from "@/components/UploadedFileView";
 import { useMatter } from "@/features/matter/api/useMatter";
 import { MultiSelect } from "@/components/multi-select";
 import { useProfessor } from "../api/useProfessor";
+import { useNavigate } from "react-router-dom";
+import { axiosPrivateInstance } from "@/api/axiosInstance";
 
 export type OptionsType = {
   value: string;
@@ -28,6 +30,7 @@ const ProfessorCreate = () => {
     handleSubmit,
     control,
     setValue,
+    reset,
   } = useForm<ProfessorType>({
     resolver: zodResolver(professorSchema),
     defaultValues: {
@@ -40,8 +43,10 @@ const ProfessorCreate = () => {
   } = useMatter();
 
   const {
-    createProf: { data: newProfessor },
+    createProfMutation: { isPending, mutate: createProf },
   } = useProfessor();
+
+  const navigate = useNavigate();
 
   const options =
     data?.map((value) => ({
@@ -65,13 +70,48 @@ const ProfessorCreate = () => {
       const newFiles = [...formatedFiles, ...getFormatedFiles(files)];
       setFormatedFiles(newFiles);
 
-      setValue("documents", newFiles);
+      setValue("documents", newFiles, { shouldValidate: true });
 
       if (e.target.value) e.target.value = "";
     }
   };
 
-  const onSubmit: SubmitHandler<ProfessorType> = (profFormData) => {};
+  // THis function is going to upload each documents file in including file upload progress.
+  const handleUploadFile = (profDocuments: FileType[]) => {
+    if (profDocuments == undefined) return;
+    const uploadedFilesPromise = profDocuments.map(async (file) => {
+      const result = await axiosPrivateInstance.post(
+        "/secretary/document/create",
+        { document: file.file },
+        {
+          onUploadProgress: (e) => {
+            const progress = Math.round((e.loaded * 100) / (e.total ?? 1));
+            setFormatedFiles((prev) =>
+              prev.map((f) =>
+                f.id === file.id
+                  ? {
+                      ...f,
+                      progress: progress,
+                    }
+                  : f,
+              ),
+            );
+          },
+        },
+      );
+      return result.data;
+    });
+
+    return Promise.all(uploadedFilesPromise);
+  };
+
+  const onSubmit: SubmitHandler<ProfessorType> = async (profFormData) => {
+    await createProf(profFormData);
+    if (profFormData?.documents && profFormData?.documents.length > 0)
+      await handleUploadFile(profFormData.documents);
+    reset();
+    navigate("/secretary/professors");
+  };
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -232,7 +272,7 @@ const ProfessorCreate = () => {
               type="submit"
               className="bg-primary w-full my-4 py-4 text-white rounded-lg cursor-pointer"
             >
-              Valider
+              {isPending ? "Création du professeur" : "Valider"}
             </button>
           </div>
         </div>

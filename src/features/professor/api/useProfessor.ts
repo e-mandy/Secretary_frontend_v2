@@ -10,7 +10,7 @@ export const useProfessor = () => {
     queryFn: getProfesseur,
   });
 
-  const createProf = useMutation({
+  const createProfMutation = useMutation({
     mutationFn: create,
     onSuccess: (data) => {
       console.log(data);
@@ -20,5 +20,5 @@ export const useProfessor = () => {
     },
   });
 
-  return { getAllProfessors, createProf, error };
+  return { getAllProfessors, createProfMutation, error };
 };
