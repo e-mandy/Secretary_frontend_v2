@@ -11,6 +11,7 @@ import type { FileType } from "../schemas/professeur_files.schema";
 import UploadedFileView from "@/components/UploadedFileView";
 import { useMatter } from "@/features/matter/api/useMatter";
 import { MultiSelect } from "@/components/multi-select";
+import { useProfessor } from "../api/useProfessor";
 
 export type OptionsType = {
   value: string;
@@ -37,6 +38,10 @@ const ProfessorCreate = () => {
   const {
     get: { data },
   } = useMatter();
+
+  const {
+    createProf: { data: newProfessor },
+  } = useProfessor();
 
   const options =
     data?.map((value) => ({
@@ -66,9 +71,7 @@ const ProfessorCreate = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<ProfessorType> = (profFormData) => {
-    console.log(profFormData);
-  };
+  const onSubmit: SubmitHandler<ProfessorType> = (profFormData) => {};
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -83,7 +86,7 @@ const ProfessorCreate = () => {
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex mb-14">
           <div className="w-2/5">
-            <h3 className="font-bold text-xl">Information personnelles</h3>
+            <h3 className="font-bold text-xl">Informations personnelles</h3>
             <p className="text-gray-500">
               Identification basique et détails de communication.
             </p>
