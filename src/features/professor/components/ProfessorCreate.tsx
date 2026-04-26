@@ -35,7 +35,11 @@ const ProfessorCreate = () => {
     resolver: zodResolver(professorSchema),
     defaultValues: {
       matters: [],
-    },
+      documents: [],
+      email: "",
+      lastname: "",
+      firstname: "",
+    } as ProfessorType,
   });
 
   const {

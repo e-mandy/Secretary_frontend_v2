@@ -3,10 +3,10 @@ import z from "zod";
 export const fileSchema = z.object({
   id: z.string(),
   name: z.string(),
-  file: z.file(),
+  file: z.instanceof(File),
   extension: z.string(),
   size: z.number(),
-  progress: z.number().default(0),
+  progress: z.number(),
 });
 
 export type FileType = z.infer<typeof fileSchema>;
