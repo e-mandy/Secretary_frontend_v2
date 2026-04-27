@@ -6,7 +6,7 @@ export const fileSchema = z.object({
   file: z.instanceof(File),
   extension: z.string(),
   size: z.number(),
-  progress: z.number(),
+  progress: z.number().optional(),
 });
 
 export type FileType = z.infer<typeof fileSchema>;

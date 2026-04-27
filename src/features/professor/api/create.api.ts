@@ -3,12 +3,12 @@ import type { ProfessorType } from "../schemas/professor.schema";
 
 const create = async (professor: ProfessorType) => {
   const response = await axiosPrivateInstance.post(
-    "secretary/professor/create",
+    "/secretary/professor/create",
     {
       lastname: professor.lastname,
       firstname: professor.firstname,
       email: professor.email,
-      matters: professor.matters,
+      matters: professor.matters.map((matter) => parseInt(matter.id)),
     },
   );
   return response.data;
