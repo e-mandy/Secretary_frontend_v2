@@ -5,7 +5,7 @@ import Spinner from "../../../components/Spinner";
 import Success from "../../../components/Success";
 
 const EmailVerify = () => {
-  const { isPending, mutate, isSuccess } = useEmailVerify();
+  const { isPending, mutate, isSuccess, isError } = useEmailVerify();
   const navigate = useNavigate();
 
   // We pick the id and the hash from the link sent in the user email
@@ -27,11 +27,13 @@ const EmailVerify = () => {
   }, [id, hash, expirationValue, signature, mutate]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      navigate("/");
-    }, 5000);
+    if (isSuccess) {
+      const timeoutId = setTimeout(() => {
+        navigate("/");
+      }, 5000);
 
-    return () => clearTimeout(timeoutId);
+      return () => clearTimeout(timeoutId);
+    }
   }, [isSuccess, navigate]);
 
   if (isPending) {
@@ -41,7 +43,9 @@ const EmailVerify = () => {
         <p>Patientez un petit moment encore !!</p>
       </div>
     );
-  } else if (isSuccess) {
+  }
+
+  if (isSuccess) {
     return (
       <div className="w-screen h-screen flex flex-col m-auto items-center justify-center">
         <Success />
@@ -52,6 +56,29 @@ const EmailVerify = () => {
       </div>
     );
   }
+
+  if (isError) {
+    return (
+      <div className="w-screen h-screen flex flex-col m-auto items-center justify-center text-center">
+        <p className="text-xl mb-2 text-red-500 font-bold">Erreur de vérification</p>
+        <p className="text-lg">Le lien de vérification est invalide ou a expiré.</p>
+        <button 
+          onClick={() => navigate("/secretary/login")} 
+          className="mt-4 px-4 py-2 bg-[#c41c2d] text-white rounded-lg"
+        >
+          Retour à la connexion
+        </button>
+      </div>
+    );
+  }
+
+  // Fallback for idle state before the mutation fires
+  return (
+    <div className="flex w-screen h-screen m-auto items-center justify-center">
+      <Spinner width="30" height="30" color="white" visible={true} />
+      <p>Préparation de la vérification...</p>
+    </div>
+  );
 };
 
 export default EmailVerify;
