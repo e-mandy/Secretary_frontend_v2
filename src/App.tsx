@@ -8,6 +8,7 @@ import Dashboard from "./features/dashboard/pages/Dashboard";
 import Professors from "./features/professor/components/Professors";
 import Documents from "./features/documents/components/Documents";
 import ProfessorCreate from "./features/professor/components/ProfessorCreate";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/secretary/documents" element={<Documents />} />
         </Route>
       </Routes>
+      <Toaster />
     </BrowserRouter>
   );
 }
