@@ -9,6 +9,7 @@ const create = async (professor: ProfessorType) => {
       firstname: professor.firstname,
       email: professor.email,
       matters: professor.matters.map((matter) => parseInt(matter.id)),
+      documents: professor.documents?.map((document) => document.file) ?? null,
     },
   );
   return response.data;

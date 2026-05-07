@@ -13,7 +13,6 @@ import { useMatter } from "@/features/matter/api/useMatter";
 import { MultiSelect } from "@/components/multi-select";
 import { useProfessor } from "../api/useProfessor";
 import { useNavigate } from "react-router-dom";
-import { axiosPrivateInstance } from "@/api/axiosInstance";
 
 export type OptionsType = {
   value: string;
@@ -47,7 +46,7 @@ const ProfessorCreate = () => {
   } = useMatter();
 
   const {
-    createProfMutation: { isPending, mutate: createProf },
+    createProfMutation: { isPending, mutate: createProf, isError },
   } = useProfessor();
 
   const navigate = useNavigate();
@@ -80,39 +79,9 @@ const ProfessorCreate = () => {
     }
   };
 
-  // THis function is going to upload each documents file in including file upload progress.
-  const handleUploadFile = (profDocuments: FileType[]) => {
-    if (profDocuments == undefined) return;
-    const uploadedFilesPromise = profDocuments.map(async (file) => {
-      const result = await axiosPrivateInstance.post(
-        "/secretary/document/create",
-        { document: file.file },
-        {
-          onUploadProgress: (e) => {
-            const progress = Math.round((e.loaded * 100) / (e.total ?? 1));
-            setFormatedFiles((prev) =>
-              prev.map((f) =>
-                f.id === file.id
-                  ? {
-                      ...f,
-                      progress: progress,
-                    }
-                  : f,
-              ),
-            );
-          },
-        },
-      );
-      return result.data;
-    });
-
-    return Promise.all(uploadedFilesPromise);
-  };
-
   const onSubmit: SubmitHandler<ProfessorType> = async (profFormData) => {
     await createProf(profFormData);
-    if (profFormData?.documents && profFormData?.documents.length > 0)
-      await handleUploadFile(profFormData.documents);
+    if (isError) return;
     reset();
     navigate("/secretary/professors");
   };

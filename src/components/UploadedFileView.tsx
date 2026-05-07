@@ -1,7 +1,6 @@
 import type { FileType } from "@/features/professor/schemas/professeur_files.schema";
 
 import { getCorrectIcon } from "@/utils/getCorrectIcon";
-import ProgressBar from "./ProgressBar";
 
 const UploadedFileView = ({ ...data }: FileType) => {
   const fileIcon = getCorrectIcon(data.extension);
@@ -25,11 +24,6 @@ const UploadedFileView = ({ ...data }: FileType) => {
           </div>
         </div>
       </div>
-      {data.progress && (
-        <div className="w-20 rounded-full overflow-hidden">
-          <ProgressBar percentage={data.progress} />
-        </div>
-      )}
     </div>
   );
 };
