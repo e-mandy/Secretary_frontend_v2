@@ -46,7 +46,7 @@ const ProfessorCreate = () => {
   } = useMatter();
 
   const {
-    createProfMutation: { isPending, mutate: createProf, isError },
+    createProfMutation: { isPending, mutate: createProf },
   } = useProfessor();
 
   const navigate = useNavigate();
@@ -81,7 +81,6 @@ const ProfessorCreate = () => {
 
   const onSubmit: SubmitHandler<ProfessorType> = async (profFormData) => {
     await createProf(profFormData);
-    if (isError) return;
     reset();
     navigate("/secretary/professors");
   };
@@ -200,6 +199,11 @@ const ProfessorCreate = () => {
                   />
                 )}
               />
+              {errors.matters?.message && (
+                <span className="error-message text-[#c41c2d]">
+                  {errors.matters?.message}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -220,7 +224,7 @@ const ProfessorCreate = () => {
                 className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
               >
                 <input
-                  name="documents"
+                  {...register("documents")}
                   type="file"
                   onChange={handleFileInputChange}
                   className="hidden"
