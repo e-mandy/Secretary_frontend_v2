@@ -46,7 +46,7 @@ const ProfessorCreate = () => {
   } = useMatter();
 
   const {
-    createProfMutation: { isPending, mutate: createProf, isSuccess },
+    createProfMutation: { isPending, mutate: createProf },
   } = useProfessor();
 
   const navigate = useNavigate();
@@ -81,12 +81,8 @@ const ProfessorCreate = () => {
 
   const onSubmit: SubmitHandler<ProfessorType> = async (profFormData) => {
     await createProf(profFormData);
-    if (!isSuccess) {
-      return;
-    } else {
-      reset();
-      navigate("/secretary/professors");
-    }
+    reset();
+    navigate("/secretary/professors");
   };
 
   return (
