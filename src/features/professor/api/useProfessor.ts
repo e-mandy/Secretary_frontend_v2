@@ -3,6 +3,7 @@ import { useState } from "react";
 import { create, getProfesseur } from "./index";
 import type { AxiosError } from "axios";
 import { useNotify } from "@/hooks/useNotify";
+import deleteProf from "./delete.api";
 
 export const useProfessor = () => {
   const [error, setError] = useState<null | Error>(null);
@@ -15,8 +16,7 @@ export const useProfessor = () => {
 
   const createProfMutation = useMutation({
     mutationFn: create,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       notify("Professeur crée avec succès", "success");
     },
     onError: (error: AxiosError) => {
@@ -26,5 +26,17 @@ export const useProfessor = () => {
     },
   });
 
-  return { getAllProfessors, createProfMutation, error };
+  const deleteProfMutation = useMutation({
+    mutationFn: deleteProf,
+    onSuccess: (data) => {
+      console.log(data);
+      notify("Professeur supprimé avec succès", "success");
+    },
+    onError: (error: AxiosError) => {
+      const data = error.response?.data as { message: string };
+      notify(data.message as string, "error");
+    },
+  });
+
+  return { getAllProfessors, createProfMutation, deleteProfMutation, error };
 };
