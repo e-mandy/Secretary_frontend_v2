@@ -1,12 +1,14 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { create, getProfesseur } from "./index";
 import type { AxiosError } from "axios";
 import { useNotify } from "@/hooks/useNotify";
+import deleteProf from "./delete.api";
 
 export const useProfessor = () => {
   const [error, setError] = useState<null | Error>(null);
   const { notify } = useNotify();
+  const queryClient = useQueryClient();
 
   const getAllProfessors = useQuery({
     queryKey: ["professors"],
@@ -16,8 +18,8 @@ export const useProfessor = () => {
   const createProfMutation = useMutation({
     mutationFn: create,
     onSuccess: (data) => {
-      console.log(data);
-      notify("Professeur crée avec succès", "success");
+      const message = data.message as string;
+      notify(message, "success");
     },
     onError: (error: AxiosError) => {
       setError(error);
@@ -26,5 +28,18 @@ export const useProfessor = () => {
     },
   });
 
-  return { getAllProfessors, createProfMutation, error };
+  const deleteProfMutation = useMutation({
+    mutationFn: deleteProf,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["professors"] });
+      notify("Professeur supprimé avec succès", "success");
+    },
+    onError: (error: AxiosError) => {
+      const data = error.response?.data as { message: string };
+      notify(data.message as string, "error");
+    },
+  });
+
+  return { getAllProfessors, createProfMutation, deleteProfMutation, error };
 };
