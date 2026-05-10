@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { create, getProfesseur } from "./index";
 import type { AxiosError } from "axios";
@@ -8,6 +8,7 @@ import deleteProf from "./delete.api";
 export const useProfessor = () => {
   const [error, setError] = useState<null | Error>(null);
   const { notify } = useNotify();
+  const queryClient = useQueryClient();
 
   const getAllProfessors = useQuery({
     queryKey: ["professors"],
@@ -30,6 +31,7 @@ export const useProfessor = () => {
     mutationFn: deleteProf,
     onSuccess: (data) => {
       console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["professors"] });
       notify("Professeur supprimé avec succès", "success");
     },
     onError: (error: AxiosError) => {

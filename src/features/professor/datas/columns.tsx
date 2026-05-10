@@ -2,16 +2,11 @@
 
 import { type ColumnDef } from "@tanstack/react-table";
 import type { ProfessorType } from "../schemas/professor.schema";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
+import {} from "../../../components/ui/dropdown-menu";
+import { ArrowUpDown } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Checkbox } from "../../../components/ui/checkbox";
+import ProfessorAction from "../components/ProfessorAction";
 
 export const columns: ColumnDef<ProfessorType & { id: string }>[] = [
   {
@@ -59,43 +54,6 @@ export const columns: ColumnDef<ProfessorType & { id: string }>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      // Data from the professor type
-      const professorData = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            style={{
-              width: "10rem",
-              gap: "1rem",
-            }}
-          >
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <Eye /> Voir Professeur
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Edit />
-              Modifier
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-red-500"
-              onClick={() => console.log("I'm gonna supp", professorData.id)}
-            >
-              <Trash />
-              Supprimer
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <ProfessorAction row={row.original} />,
   },
 ];
