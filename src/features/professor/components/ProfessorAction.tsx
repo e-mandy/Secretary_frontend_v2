@@ -10,11 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { useProfessor } from "../api/useProfessor";
 import Spinner from "@/components/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const ProfessorAction = ({ row }: { row: ProfessorType & { id: string } }) => {
   const {
     deleteProfMutation: { mutate, isPending },
   } = useProfessor();
+
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +34,9 @@ const ProfessorAction = ({ row }: { row: ProfessorType & { id: string } }) => {
         }}
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => navigate(`/secretary/professor/${row.id}`)}
+        >
           <Eye /> Voir Professeur
         </DropdownMenuItem>
         <DropdownMenuItem>
