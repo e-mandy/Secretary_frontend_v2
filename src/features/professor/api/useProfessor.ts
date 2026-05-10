@@ -17,8 +17,9 @@ export const useProfessor = () => {
 
   const createProfMutation = useMutation({
     mutationFn: create,
-    onSuccess: () => {
-      notify("Professeur crée avec succès", "success");
+    onSuccess: (data) => {
+      const message = data.message as string;
+      notify(message, "success");
     },
     onError: (error: AxiosError) => {
       setError(error);

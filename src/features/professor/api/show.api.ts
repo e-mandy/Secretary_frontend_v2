@@ -5,7 +5,7 @@ const show = async (profId: string) => {
     `/secretary/professor/${profId}`,
   );
 
-  return response.data;
+  return response.data.data;
 };
 
 export default show;

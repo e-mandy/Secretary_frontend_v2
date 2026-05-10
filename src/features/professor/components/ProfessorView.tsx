@@ -37,7 +37,7 @@ const ProfessorView = () => {
             <h3 className="text-xl mb-2">
               {data?.lastname} {data?.firstname}
             </h3>
-            <p className="text-sm">Ingénieur IA & Data Scientist</p>
+            <p className="text-sm">(Profession - À venir)</p>
           </div>
           <div className="my-2 mx-auto px-4">
             {data?.matters.map((matter) => (
@@ -57,26 +57,15 @@ const ProfessorView = () => {
             </div>
             <div className="flex flex-col items-start">
               <h5 className="text-sm font-bold text-gray-500">Email address</h5>
-              <p className="font-semibold">sarah@example@gmail.com</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 my-3">
-            <div className="w-fit h-fit p-2 rounded-full bg-blue-200">
-              <Mail size={20} />
-            </div>
-            <div className="flex flex-col items-start">
-              <h5 className="text-sm font-bold text-gray-500">
-                Numéro de téléphone
-              </h5>
-              <p className="font-semibold">+229 0152697459</p>
+              <p className="font-semibold">{data?.email}</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex-1 bg-purple-200">
-        <div className="bg-yellow-300 w-full">
+      <div className="flex-1 p-4 flex flex-col">
+        <div className="w-full bg-white rounded-lg shadow-lg px-6">
           <h2 className="uppercase text-gray-500 my-3 font-extrabold py-3">
-            Documents Récents
+            Documents Récents (À venir)
           </h2>
           <div className="documents-container"></div>
         </div>
