@@ -224,7 +224,6 @@ const ProfessorCreate = () => {
                 className="border-dashed border-3 border-gray-200 my-4 text-center py-4 rounded-lg cursor-pointer"
               >
                 <input
-                  {...register("documents")}
                   type="file"
                   onChange={handleFileInputChange}
                   className="hidden"
