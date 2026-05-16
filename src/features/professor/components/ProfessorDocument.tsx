@@ -1,3 +1,4 @@
+import { getFormatedFileSize } from "@/utils/getFormatedFileSize";
 import { Download, Folder } from "lucide-react";
 
 export type ProfessorDocumentType = {
@@ -20,9 +21,11 @@ const ProfessorDocument = ({ ...data }: ProfessorDocumentType) => {
             <h4 className="text-sm md:text-base font-semibold">
               {data?.title}
             </h4>
-            <p className="text-sm font-bold text-gray-500 flex justify-start gap-4 uppercase">
-              <span>{data.metadata?.size}</span>
-              <span>{data?.metadata?.type.split("/")[1]}</span>
+            <p className="text-sm font-bold text-gray-500 flex justify-start gap-4">
+              <span>{getFormatedFileSize(data.metadata?.size)}</span>
+              <span className="uppercase">
+                {data?.metadata?.type.split("/")[1]}
+              </span>
             </p>
           </div>
         </div>

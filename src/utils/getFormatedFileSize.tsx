@@ -1,10 +1,10 @@
 export const getFormatedFileSize = (size: number) => {
-  const unites = ["o", "Ko", "Mo", "Go", "To"];
+  const unites = ["octet", "Ko", "Mo", "Go", "To"];
   let response = { value: 0, unite: "", level: 0 };
   let isDividing = true;
   let level = 0;
   do {
-    if (size % Math.pow(1024, level + 1) > 0.1) {
+    if (size / Math.pow(1024, level + 1) > 0.1) {
       isDividing = true;
       response = {
         ...response,
