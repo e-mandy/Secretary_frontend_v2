@@ -18,6 +18,7 @@ export const useProfessor = () => {
   const createProfMutation = useMutation({
     mutationFn: create,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["professors"] });
       const message = data.message as string;
       notify(message, "success");
     },
