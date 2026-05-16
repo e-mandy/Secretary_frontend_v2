@@ -47,8 +47,8 @@ const ProfessorView = () => {
           </div>
           <div className="my-2 mx-auto px-4">
             {data?.matters.map((matter) => (
-              <Badge className="bg-blue-950 text-blue-300 mx-1 my-1">
-                <BadgePlus /> {matter.name}
+              <Badge className="bg-blue-950 text-blue-300 mx-1 py-3 text-center my-1">
+                <BadgePlus /> <span>{matter.name}</span>
               </Badge>
             ))}
           </div>
