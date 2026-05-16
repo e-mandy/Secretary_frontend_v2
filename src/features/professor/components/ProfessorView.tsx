@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import show from "../api/show.api";
 import { useEffect } from "react";
 import type { ProfessorType } from "../schemas/professor.schema";
+import ProfessorDocuments from "./ProfessorDocuments";
 
 const ProfessorView = () => {
   const { id } = useParams<{ id: string }>();
@@ -62,14 +63,7 @@ const ProfessorView = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 p-4 flex flex-col">
-        <div className="w-full bg-white rounded-lg shadow-lg px-6">
-          <h2 className="uppercase text-gray-500 my-3 font-extrabold py-3">
-            Documents Récents (À venir)
-          </h2>
-          <div className="documents-container"></div>
-        </div>
-      </div>
+      <ProfessorDocuments />
     </div>
   );
 };
