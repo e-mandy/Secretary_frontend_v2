@@ -6,20 +6,36 @@ export const useDownload = () => {
   const [error, setError] = useState<null | unknown>(null);
   const [isLoading, setLoading] = useState(false);
   const { notify } = useNotify();
+  const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_URL,
+  });
 
   const download = async (id: string) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/documents/${id}/download`, {
+      const response = await axiosInstance.get(`/documents/${id}/download`, {
         responseType: "blob",
       });
 
-      // Create a temporar file through the Blob.
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const contentDisposition = response.headers["content-disposition"];
+      console.log(contentDisposition);
+      console.log("content-type:", response.headers["content-type"]);
+      const filename =
+        contentDisposition
+          ?.split(";")
+          .find((part) => part.trim().startsWith("filename="))
+          ?.split("=")[1]
+          ?.replace(/"/g, "")
+          ?.trim() ?? "document"; // ← ajout
+
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: response.headers["content-type"] }), // ← type explicite
+      );
 
       // Introduce the link in the tree.
       const link = document.createElement("a");
       link.href = url;
+      link.setAttribute("download", filename);
       document.body.appendChild(link);
 
       link.click();
