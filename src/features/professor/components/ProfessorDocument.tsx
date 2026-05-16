@@ -1,5 +1,6 @@
 import { getFormatedFileSize } from "@/utils/getFormatedFileSize";
 import { Download, Folder } from "lucide-react";
+import { useDownload } from "../api/useDownload";
 
 export type ProfessorDocumentType = {
   id: string;
@@ -10,6 +11,10 @@ export type ProfessorDocumentType = {
 };
 
 const ProfessorDocument = ({ ...data }: ProfessorDocumentType) => {
+  const { download } = useDownload();
+  const handleDownload = () => {
+    download(data?.id);
+  };
   return (
     <div className="py-3 px-3 rounded-lg shadow-lg bg-white w-fit md:w-full">
       <div className="flex justify-between items-center">
@@ -29,7 +34,10 @@ const ProfessorDocument = ({ ...data }: ProfessorDocumentType) => {
             </p>
           </div>
         </div>
-        <div className="rounded-lg p-2 cursor-pointer hover:bg-gray-100">
+        <div
+          className="rounded-lg p-2 cursor-pointer hover:bg-gray-100 block"
+          onClick={handleDownload}
+        >
           <Download />
         </div>
       </div>

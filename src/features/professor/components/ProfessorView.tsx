@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import type { ProfessorType } from "../schemas/professor.schema";
 import ProfessorDocuments from "./ProfessorDocuments";
 import Spinner from "@/components/Spinner";
+import { GlobalErrorBoundary } from "@/components/GlobalErrorBoundary";
 
 const ProfessorView = () => {
   const { id } = useParams<{ id: string }>();
@@ -68,7 +69,9 @@ const ProfessorView = () => {
           </div>
         </div>
       </div>
-      <ProfessorDocuments />
+      <GlobalErrorBoundary>
+        <ProfessorDocuments />
+      </GlobalErrorBoundary>
     </div>
   );
 };
