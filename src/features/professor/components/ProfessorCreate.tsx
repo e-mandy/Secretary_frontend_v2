@@ -80,7 +80,7 @@ const ProfessorCreate = () => {
   };
 
   const onSubmit: SubmitHandler<ProfessorType> = async (profFormData) => {
-    await createProf(profFormData);
+    createProf(profFormData);
     reset();
     navigate("/secretary/professors");
   };

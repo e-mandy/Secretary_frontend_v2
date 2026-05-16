@@ -6,6 +6,7 @@ import show from "../api/show.api";
 import { useEffect } from "react";
 import type { ProfessorType } from "../schemas/professor.schema";
 import ProfessorDocuments from "./ProfessorDocuments";
+import Spinner from "@/components/Spinner";
 
 const ProfessorView = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,9 +14,9 @@ const ProfessorView = () => {
 
   useEffect(() => {
     if (!id) navigate("/", { replace: true });
-  });
+  }, [id, navigate]);
 
-  const { data } = useQuery<ProfessorType>({
+  const { data, isPending } = useQuery<ProfessorType>({
     queryKey: ["professor"],
     queryFn: () => {
       if (!id) throw new Error("Id du professeur manquant");
@@ -28,16 +29,20 @@ const ProfessorView = () => {
     navigate(-1);
   }
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <div className="w-1/3 p-4 flex flex-col gap-8">
         <div className="prof-card bg-white shadow-lg flex flex-col items-center w-full rounded-lg py-8 px-6">
           <div className="rounded-full bg-blue-300 w-fit h-fit p-4 my-2">
             <User size={40} />
           </div>
           <div className="my-2 text-center">
-            <h3 className="text-xl mb-2">
-              {data?.lastname} {data?.firstname}
-            </h3>
+            {isPending ? (
+              <Spinner height="20" width="20" color="black" visible />
+            ) : (
+              <h3 className="text-xl mb-2">
+                {data?.lastname} {data?.firstname}
+              </h3>
+            )}
             <p className="text-sm">(Profession - À venir)</p>
           </div>
           <div className="my-2 mx-auto px-4">
