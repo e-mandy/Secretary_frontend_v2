@@ -23,7 +23,7 @@ export const useDownload = () => {
       const filename =
         contentDisposition
           ?.split(";")
-          .find((part) => part.trim().startsWith("filename="))
+          .find((part: string) => part.trim().startsWith("filename="))
           ?.split("=")[1]
           ?.replace(/"/g, "")
           ?.trim() ?? "document"; // ← ajout
