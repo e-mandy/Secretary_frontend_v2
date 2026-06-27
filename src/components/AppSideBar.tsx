@@ -1,4 +1,10 @@
-import { LayoutDashboard, School, Settings, Users } from "lucide-react";
+import {
+  LayoutDashboard,
+  School,
+  Users,
+  FileArchive,
+  File,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +25,12 @@ const AppSideBar = () => {
       items: [
         { title: "Tableau de Bord", icon: LayoutDashboard, href: "/" },
         { title: "Professeurs", icon: Users, href: "/secretary/professors" },
-        { title: "Documents", icon: Settings, href: "/secretary/documents" },
+        { title: "Documents", icon: File, href: "/secretary/documents" },
+        {
+          title: "PV Soutenances",
+          icon: FileArchive,
+          href: "/secretary/defense",
+        },
       ],
     },
   ];
