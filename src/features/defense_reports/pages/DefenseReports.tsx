@@ -18,7 +18,7 @@ const DefenseReports = () => {
           </button>
         </div>
       </div>
-      <div className="bg-blue-300 py-10">
+      <div className="mt-10 border rounded-lg overflow-hidden">
         <GlobalErrorBoundary>
           <DefenseTable data={DEFENSE_DATA} />
         </GlobalErrorBoundary>

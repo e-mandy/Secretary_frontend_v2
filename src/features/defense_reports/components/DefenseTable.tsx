@@ -12,19 +12,19 @@ const columnHelper = createColumnHelper<DefenseReportProps>();
 
 const columns = [
   columnHelper.accessor("owner", {
-    header: "Étudiant",
-    cell: (data) => data.getValue(),
+    header: () => <div className="text-left pl-4">Étudiant</div>,
+    cell: (data) => <div className="pl-4">{data.getValue()}</div>,
   }),
   columnHelper.accessor("theme", {
-    header: "Thème",
+    header: () => <div className="text-left">Thème</div>,
     cell: (data) => data.getValue(),
   }),
   columnHelper.display({
     id: "actions",
     header: "Actions",
     cell: () => (
-      <div>
-        <button>
+      <div className="flex justify-center items-center">
+        <button className="p-2 text-white bg-black rounded">
           <Edit />
         </button>
         <button>
@@ -42,12 +42,12 @@ const DefenseTable = ({ data }: { data: DefenseReportProps[] }) => {
     getCoreRowModel: getCoreRowModel(),
   });
   return (
-    <table className="w-full">
-      <thead>
+    <table className="w-full border-collapse">
+      <thead className="bg-gray-100 px-2">
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <th key={header.id} className="py-2">
                 {flexRender(
                   header.column.columnDef.header,
                   header.getContext(),
@@ -61,7 +61,7 @@ const DefenseTable = ({ data }: { data: DefenseReportProps[] }) => {
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <td key={cell.id} className="py-2">
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
