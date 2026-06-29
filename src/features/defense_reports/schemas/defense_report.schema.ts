@@ -1,0 +1,17 @@
+import z from "zod";
+
+const MIMES_TYPE = ["application/pdf"];
+
+export const defenseReportSchema = z.object({
+  owner: z.string(),
+  theme: z.string().max(1000),
+  defense_date: z.iso.date(),
+  note: z.number(),
+  filiere: z.enum(["Master", "Licence"]),
+  option: z.enum(["AL", "SI", "SRC", "IA"]),
+  file: z
+    .instanceof(File, { message: "Le fichier est obligatoire." })
+    .refine((file) => MIMES_TYPE.includes(file.type)),
+});
+
+export type DefenseReportType = z.infer<typeof defenseReportSchema>;
