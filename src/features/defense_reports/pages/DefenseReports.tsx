@@ -1,7 +1,9 @@
 import { GlobalErrorBoundary } from "@/components/GlobalErrorBoundary";
 import DefenseTable from "../components/DefenseTable";
+import { useNavigate } from "react-router-dom";
 
 const DefenseReports = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-full">
       <div className="md:flex md:justify-between w-full">
@@ -12,7 +14,10 @@ const DefenseReports = () => {
           </p>
         </div>
         <div>
-          <button className="px-4 py-2 bg-primary text-white rounded-xl text-lg cursor-pointer">
+          <button
+            className="px-4 py-2 bg-primary text-white rounded-xl text-lg cursor-pointer"
+            onClick={() => navigate("/secretary/defense/create")}
+          >
             Ajouter un PV de Soutenance
           </button>
         </div>

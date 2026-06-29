@@ -11,6 +11,7 @@ import ProfessorCreate from "./features/professor/components/ProfessorCreate";
 import { Toaster } from "react-hot-toast";
 import ProfessorView from "./features/professor/components/ProfessorView";
 import DefenseReports from "./features/defense_reports/pages/DefenseReports";
+import DefenseReportCreate from "./features/defense_reports/pages/DefenseReportCreate";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route path="/secretary/professor/:id" element={<ProfessorView />} />
           <Route path="/secretary/documents" element={<Documents />} />
           <Route path="/secretary/defense" element={<DefenseReports />} />
+          <Route
+            path="/secretary/defense/create"
+            element={<DefenseReportCreate />}
+          />
         </Route>
       </Routes>
       <Toaster />
