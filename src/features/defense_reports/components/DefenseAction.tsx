@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
+import { Edit, MoreHorizontal, Trash, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { DefenseReportProps } from "@/types/defense.types";
 
@@ -33,9 +33,10 @@ const DefenseAction = ({
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
+          className="flex"
           onClick={() => navigate(`/secretary/professor/${row.id}`)}
         >
-          <Eye /> Voir Professeur
+          <Upload /> Télécharger PV
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Edit />

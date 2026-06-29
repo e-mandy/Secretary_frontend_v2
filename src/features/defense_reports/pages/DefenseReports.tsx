@@ -1,7 +1,5 @@
 import { GlobalErrorBoundary } from "@/components/GlobalErrorBoundary";
-import { DEFENSE_DATA } from "@/constants/defense.constants";
-import { DataTable } from "@/components/data-table";
-import { columns } from "../components/columns";
+import DefenseTable from "../components/DefenseTable";
 
 const DefenseReports = () => {
   return (
@@ -19,11 +17,9 @@ const DefenseReports = () => {
           </button>
         </div>
       </div>
-      <div className="mt-10">
-        <GlobalErrorBoundary>
-          <DataTable columns={columns} data={DEFENSE_DATA} />
-        </GlobalErrorBoundary>
-      </div>
+      <GlobalErrorBoundary>
+        <DefenseTable />
+      </GlobalErrorBoundary>
     </div>
   );
 };
