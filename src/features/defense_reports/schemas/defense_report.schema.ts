@@ -6,7 +6,7 @@ export const defenseReportSchema = z.object({
   owner: z.string(),
   theme: z.string().max(1000),
   defense_date: z.iso.date(),
-  note: z.number(),
+  note: z.number().min(10).max(20),
   filiere: z.enum(["Master", "Licence"]),
   option: z.enum(["AL", "SI", "SRC", "IA"]),
   file: z
