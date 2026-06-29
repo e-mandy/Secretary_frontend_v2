@@ -1,4 +1,4 @@
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, FilePlusCorner, Save, Upload } from "lucide-react";
 
 const DefenseReportCreate = () => {
   return (
@@ -60,7 +60,7 @@ const DefenseReportCreate = () => {
               </div>
             </div>
           </div>
-          <div>
+          <div className="md:flex gap-6 mb-4">
             <div className="my-3 flex-1">
               <label htmlFor="theme" className="font-semibold">
                 Filière
@@ -111,12 +111,19 @@ const DefenseReportCreate = () => {
               </div>
             </div>
           </div>
+          <button
+            type="submit"
+            className="bg-primary text-white rounded-lg cursor-pointer px-3 py-2 flex gap-2 items-center"
+          >
+            <Save />
+            Enregistrer le PV de Soutenance
+          </button>
         </div>
-        <div className="px-10 py-4 border rounded md:max-w-100">
+        <div className="px-10 pt-4 pb-8 border border-gray-300 rounded md:max-w-100 h-fit">
           <h2 className="font-semibold uppercase text-center mb-4">
             PV de soutenance
           </h2>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center mb-3">
             <CircleAlert />
             <p className="text-justify">
               Téléversez le fichier PDF de l'étudiant. Respectez le format{" "}
@@ -124,6 +131,20 @@ const DefenseReportCreate = () => {
               n'excédez pas les{" "}
               <span className="text-[#c41c2d] font-semibold">4 Mo</span>.
             </p>
+          </div>
+          <div className="border border-[#c41c2d] rounded px-2 py-4">
+            <h4 className="font-semibold">Document PDF</h4>
+            <p className="text-xs">Max, 4 Mo</p>
+            <div className="flex items-center gap-2 mt-4">
+              <div className="border p-1 items-center justify-center w-fit rounded">
+                <FilePlusCorner />
+              </div>
+              <div className="border flex items-center gap-1 w-fit py-1 px-1 rounded cursor-pointer">
+                <input type="file" className="hidden" />
+                <Upload />
+                <p>Ajouter un fichier</p>
+              </div>
+            </div>
           </div>
         </div>
       </form>
