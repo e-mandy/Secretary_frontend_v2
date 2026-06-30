@@ -22,7 +22,7 @@ export const create = async (defenseReport: DefenseReportType) => {
 
   const result = await axiosPrivateInstance.post(
     "/secretary/defense-report/create",
-    {},
+    formData,
   );
 
   return result.data;

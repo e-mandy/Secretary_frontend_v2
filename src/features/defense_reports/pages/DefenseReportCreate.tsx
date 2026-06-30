@@ -5,24 +5,39 @@ import {
   type DefenseReportType,
 } from "../schemas/defense_report.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
+import png from "../../../assets/icons/pdf.png";
+import { getFormatedFileSize } from "@/utils/getFormatedFileSize";
+import { useDefense } from "../api/useDefense";
+import { useNavigate } from "react-router-dom";
 
 const DefenseReportCreate = () => {
+  const navigate = useNavigate();
   const defenseReportInput = useRef<null | HTMLInputElement>(null);
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
     setValue,
+    reset,
   } = useForm<DefenseReportType>({
     resolver: zodResolver(defenseReportSchema),
   });
 
+  const [defenseReportFile, setDefenseReportFile] = useState<File | null>(null);
+
+  const {
+    createDefenseReport: { mutate, isSuccess },
+  } = useDefense();
+
   const onSubmit: SubmitHandler<DefenseReportType> = async (
     defenseReportData,
   ) => {
-    console.log(defenseReportData);
+    mutate(defenseReportData);
+    if (isSuccess) {
+      reset();
+      navigate("/secretary/defense");
+    }
   };
 
   const handleFileClick = () => {
@@ -33,7 +48,11 @@ const DefenseReportCreate = () => {
 
   const handleDefenseReportFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      console.log(e.target.files[0]);
       setValue("file", e.target.files[0], { shouldValidate: true });
+      setDefenseReportFile(e.target.files[0]);
+    } else {
+      setDefenseReportFile(null);
     }
   };
 
@@ -193,32 +212,44 @@ const DefenseReportCreate = () => {
                 <span className="text-[#c41c2d] font-semibold">4 Mo</span>.
               </p>
             </div>
-            <div className="border border-[#c41c2d] rounded px-2 py-4">
-              <h4 className="font-semibold">Document PDF</h4>
-              <p className="text-xs">Max, 4 Mo</p>
-              <div className="flex items-center gap-2 mt-4">
-                <div className="border p-1 items-center justify-center w-fit rounded">
-                  <FilePlusCorner />
+            {!defenseReportFile ? (
+              <div className="border border-[#c41c2d] rounded px-2 py-4">
+                <h4 className="font-semibold">Document PDF</h4>
+                <p className="text-xs">Max, 4 Mo</p>
+                <div className="flex items-center gap-2 mt-4">
+                  <div className="border p-1 items-center justify-center w-fit rounded">
+                    <FilePlusCorner />
+                  </div>
+                  <div
+                    onClick={handleFileClick}
+                    className="border flex items-center gap-1 w-fit py-1 px-1 rounded cursor-pointer"
+                  >
+                    <input
+                      {...register("file")}
+                      type="file"
+                      name="file"
+                      onChange={handleDefenseReportFileChange}
+                      className="hidden"
+                      ref={defenseReportInput}
+                    />
+                    <Upload />
+                    <p>Ajouter un fichier</p>
+                  </div>
                 </div>
-                <div
-                  onClick={handleFileClick}
-                  className="border flex items-center gap-1 w-fit py-1 px-1 rounded cursor-pointer"
-                >
-                  <input
-                    {...register("file")}
-                    type="file"
-                    name="file"
-                    onChange={handleDefenseReportFileChange}
-                    className="hidden"
-                    ref={defenseReportInput}
-                  />
-                  <Upload />
-                  <p>Ajouter un fichier</p>
+                {errors.file?.message && (
+                  <span className="error-message">{errors?.file?.message}</span>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center py-2 px-4 border rounded gap-2">
+                <img src={png} className="md:w-10 md:h-10" />
+                <div>
+                  <p className="text-nowrap text-ellipsis overflow-hidden">
+                    {defenseReportFile.name}
+                  </p>
+                  <p>{getFormatedFileSize(defenseReportFile.size)}</p>
                 </div>
               </div>
-            </div>
-            {errors.file?.message && (
-              <span className="error-message">{errors?.file?.message}</span>
             )}
           </div>
         </div>
