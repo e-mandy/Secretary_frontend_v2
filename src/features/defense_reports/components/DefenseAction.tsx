@@ -9,12 +9,16 @@ import { Button } from "@/components/ui/button";
 import { Edit, MoreHorizontal, Trash, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { DefenseReportProps } from "@/types/defense.types";
+import { useDefense } from "../api/useDefense";
 
 const DefenseAction = ({
   row,
 }: {
   row: DefenseReportProps & { id: string };
 }) => {
+  const {
+    deleteDefenseReport: { mutate },
+  } = useDefense();
   const navigate = useNavigate();
   return (
     <DropdownMenu>
@@ -42,7 +46,10 @@ const DefenseAction = ({
           <Edit />
           Modifier
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-red-500">
+        <DropdownMenuItem
+          className="text-red-500"
+          onClick={() => mutate(row.id)}
+        >
           <Trash />
           Supprimer{" "}
         </DropdownMenuItem>
