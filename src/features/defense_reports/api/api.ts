@@ -27,3 +27,10 @@ export const create = async (defenseReport: DefenseReportType) => {
 
   return result.data;
 };
+
+export const deleteDefense = async (defenseReportId: string) => {
+  const result = await axiosPrivateInstance.delete(
+    `/secretary/defense-report/${defenseReportId}`,
+  );
+  return result.data;
+};
