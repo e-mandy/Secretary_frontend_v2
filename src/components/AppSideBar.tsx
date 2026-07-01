@@ -4,6 +4,7 @@ import {
   Users,
   FileArchive,
   File,
+  User,
 } from "lucide-react";
 import {
   Sidebar,
@@ -73,11 +74,7 @@ const AppSideBar = () => {
       </SidebarContent>
       <SidebarFooter className="mb-2">
         <div className="flex items-center gap-3 px-2 py-3">
-          <img
-            src="https://github.com/shadcn.png"
-            alt="avatar"
-            className="h-10 w-10 rounded-full"
-          />
+          <User />
           <div className="flex flex-col">
             <span className="text-base font-medium">
               {user?.firstname} {user?.lastname}
