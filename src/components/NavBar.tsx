@@ -1,5 +1,4 @@
-import { Search } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -7,12 +6,8 @@ const NavBar = () => {
       <div>
         <Link to="/">Dashboard</Link>
       </div>
-      <div className="flex gap-3 p-3 rounded-full bg-secondary md:w-1/4">
-        <Search size={20} />
-        <input type="text" placeholder="Rechercher..." className="outline-none font-semibold" /> 
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
