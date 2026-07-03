@@ -1,4 +1,10 @@
-import { CircleAlert, FilePlusCorner, Save, Upload } from "lucide-react";
+import {
+  CircleAlert,
+  FileIcon,
+  FilePlusCorner,
+  Save,
+  Upload,
+} from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {
   defenseReportSchema,
@@ -12,7 +18,7 @@ import { useDefense } from "../api/useDefense";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DefenseReportCreate = () => {
-  const defense_id = useParams<{ defense_id: string }>();
+  const { defense_id } = useParams<{ defense_id: string }>();
   const navigate = useNavigate();
   const defenseReportInput = useRef<null | HTMLInputElement>(null);
   const {
@@ -30,6 +36,7 @@ const DefenseReportCreate = () => {
   const {
     createDefenseReport: { mutate, isSuccess },
     getDefenseReport: { data: existingDefenseReport },
+    updateDefenseReport,
   } = useDefense();
 
   const isEditing = defense_id ? true : false;
@@ -50,7 +57,11 @@ const DefenseReportCreate = () => {
   const onSubmit: SubmitHandler<DefenseReportType> = async (
     defenseReportData,
   ) => {
-    mutate(defenseReportData);
+    if (!defense_id) {
+      mutate(defenseReportData);
+    } else {
+      updateDefenseReport.mutate({ id: defense_id, data: defenseReportData });
+    }
     if (isSuccess) {
       reset();
       navigate("/secretary/defense");
@@ -229,7 +240,7 @@ const DefenseReportCreate = () => {
                 <span className="text-[#c41c2d] font-semibold">4 Mo</span>.
               </p>
             </div>
-            {!defenseReportFile ? (
+            {!isEditing && !defenseReportFile ? (
               <div className="border border-[#c41c2d] rounded px-2 py-4">
                 <h4 className="font-semibold">Document PDF</h4>
                 <p className="text-xs">Max, 4 Mo</p>
@@ -257,7 +268,7 @@ const DefenseReportCreate = () => {
                   <span className="error-message">{errors?.file?.message}</span>
                 )}
               </div>
-            ) : (
+            ) : defenseReportFile ? (
               <div className="flex items-center py-2 px-4 border rounded gap-2">
                 <img src={png} className="md:w-10 md:h-10" />
                 <div>
@@ -266,6 +277,21 @@ const DefenseReportCreate = () => {
                   </p>
                   <p>{getFormatedFileSize(defenseReportFile.size)}</p>
                 </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 p-3 bg-gray-100 rounded mb-3">
+                <FileIcon size={16} />
+
+                <a
+                  href={existingDefenseReport.file_url}
+                  target="_blank"
+                  className="text-blue-500 underline text-sm"
+                >
+                  Voir le fichier actuel
+                </a>
+                <span className="text-gray-400 text-xs">
+                  — Cliquez ci-dessous pour le remplacer
+                </span>
               </div>
             )}
           </div>

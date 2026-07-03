@@ -42,3 +42,29 @@ export const fetchDefenseReport = async (defenseReportId: string) => {
 
   return result.data.data;
 };
+
+export const editDefenseReport = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: DefenseReportType;
+}) => {
+  const formData = new FormData();
+
+  // We add text data.
+  formData.append("owner", data.owner);
+  formData.append("note", data.note.toString());
+  formData.append("theme", data.theme);
+
+  formData.append("defense_date", data.defense_date);
+  formData.append("filiere", data.filiere);
+  formData.append("option", data.option);
+
+  const result = await axiosPrivateInstance.put(
+    `/secretary/defense-report/${id}`,
+    formData,
+  );
+
+  return result.data.data;
+};

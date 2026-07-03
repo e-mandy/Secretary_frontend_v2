@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, deleteDefense, fetchDefenseReport, getAll } from "./api";
+import {
+  create,
+  deleteDefense,
+  editDefenseReport,
+  fetchDefenseReport,
+  getAll,
+} from "./api";
 import { useNotify } from "@/hooks/useNotify";
 import type { AxiosError } from "axios";
 import { useParams } from "react-router-dom";
@@ -48,10 +54,24 @@ export const useDefense = () => {
     enabled: !!defense_id,
   });
 
+  const updateDefenseReport = useMutation({
+    mutationFn: editDefenseReport,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["defense_reports"] });
+      const message = data.message as string;
+      notify(message, "success");
+    },
+    onError: (error: AxiosError) => {
+      const data = error.response?.data as { message: string };
+      notify(data.message as string, "error");
+    },
+  });
+
   return {
     fetchAllDefense,
     createDefenseReport,
     deleteDefenseReport,
     getDefenseReport,
+    updateDefenseReport,
   };
 };
