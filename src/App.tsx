@@ -41,6 +41,10 @@ function App() {
             path="/secretary/defense/create"
             element={<DefenseReportCreate />}
           />
+          <Route
+            path="/secretary/defense/:defense_id/edit"
+            element={<DefenseReportCreate />}
+          />
         </Route>
       </Routes>
       <Toaster />

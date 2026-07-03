@@ -5,13 +5,14 @@ import {
   type DefenseReportType,
 } from "../schemas/defense_report.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import png from "../../../assets/icons/pdf.png";
 import { getFormatedFileSize } from "@/utils/getFormatedFileSize";
 import { useDefense } from "../api/useDefense";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DefenseReportCreate = () => {
+  const defense_id = useParams<{ defense_id: string }>();
   const navigate = useNavigate();
   const defenseReportInput = useRef<null | HTMLInputElement>(null);
   const {
@@ -29,6 +30,16 @@ const DefenseReportCreate = () => {
   const {
     createDefenseReport: { mutate, isSuccess },
   } = useDefense();
+
+  const isEditing = defense_id ? true : false;
+
+  useEffect(() => {
+    if (isEditing) {
+      reset({
+        owner: "",
+      });
+    }
+  }, [isEditing, reset]);
 
   const onSubmit: SubmitHandler<DefenseReportType> = async (
     defenseReportData,

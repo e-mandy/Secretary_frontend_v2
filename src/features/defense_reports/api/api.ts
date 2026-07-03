@@ -34,3 +34,11 @@ export const deleteDefense = async (defenseReportId: string) => {
   );
   return result.data;
 };
+
+export const fetchDefenseReport = async (defenseReportId: string) => {
+  const result = await axiosPrivateInstance.get(
+    `/secretary/defense-report/${defenseReportId}`,
+  );
+
+  return result.data;
+};
