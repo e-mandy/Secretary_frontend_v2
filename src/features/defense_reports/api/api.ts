@@ -40,5 +40,5 @@ export const fetchDefenseReport = async (defenseReportId: string) => {
     `/secretary/defense-report/${defenseReportId}`,
   );
 
-  return result.data;
+  return result.data.data;
 };

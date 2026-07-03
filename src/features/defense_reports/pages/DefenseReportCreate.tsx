@@ -29,17 +29,23 @@ const DefenseReportCreate = () => {
 
   const {
     createDefenseReport: { mutate, isSuccess },
+    getDefenseReport: { data: existingDefenseReport },
   } = useDefense();
 
   const isEditing = defense_id ? true : false;
 
   useEffect(() => {
-    if (isEditing) {
+    if (existingDefenseReport) {
       reset({
-        owner: "",
+        owner: existingDefenseReport.owner,
+        note: existingDefenseReport.note,
+        theme: existingDefenseReport.theme,
+        defense_date: existingDefenseReport.defense_date,
+        filiere: existingDefenseReport.filiere,
+        option: existingDefenseReport.option,
       });
     }
-  }, [isEditing, reset]);
+  }, [isEditing, reset, existingDefenseReport]);
 
   const onSubmit: SubmitHandler<DefenseReportType> = async (
     defenseReportData,
