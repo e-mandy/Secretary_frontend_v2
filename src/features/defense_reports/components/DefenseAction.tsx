@@ -42,7 +42,9 @@ const DefenseAction = ({
         >
           <Upload /> Télécharger PV
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => navigate(`/secretary/defense/${row.id}/edit`)}
+        >
           <Edit />
           Modifier
         </DropdownMenuItem>

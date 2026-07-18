@@ -1,11 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, deleteDefense, getAll } from "./api";
+import {
+  create,
+  deleteDefense,
+  editDefenseReport,
+  fetchDefenseReport,
+  getAll,
+} from "./api";
 import { useNotify } from "@/hooks/useNotify";
 import type { AxiosError } from "axios";
+import { useParams } from "react-router-dom";
 
 export const useDefense = () => {
   const { notify } = useNotify();
   const queryClient = useQueryClient();
+  const { defense_id } = useParams<{ defense_id: string }>();
 
   const fetchAllDefense = useQuery({
     queryKey: ["defense_reports"],
@@ -37,5 +45,33 @@ export const useDefense = () => {
     },
   });
 
-  return { fetchAllDefense, createDefenseReport, deleteDefenseReport };
+  const getDefenseReport = useQuery({
+    queryKey: ["defense_report"],
+    queryFn: () => {
+      if (!defense_id) return;
+      return fetchDefenseReport(defense_id);
+    },
+    enabled: !!defense_id,
+  });
+
+  const updateDefenseReport = useMutation({
+    mutationFn: editDefenseReport,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["defense_reports"] });
+      const message = data.message as string;
+      notify(message, "success");
+    },
+    onError: (error: AxiosError) => {
+      const data = error.response?.data as { message: string };
+      notify(data.message as string, "error");
+    },
+  });
+
+  return {
+    fetchAllDefense,
+    createDefenseReport,
+    deleteDefenseReport,
+    getDefenseReport,
+    updateDefenseReport,
+  };
 };
