@@ -62,7 +62,7 @@ const DefenseReportCreate = () => {
     } else {
       updateDefenseReport.mutate({ id: defense_id, data: defenseReportData });
     }
-    if (isSuccess) {
+    if (isSuccess || updateDefenseReport.isSuccess) {
       reset();
       navigate("/secretary/defense");
     }
