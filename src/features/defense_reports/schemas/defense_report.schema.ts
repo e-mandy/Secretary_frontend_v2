@@ -4,8 +4,7 @@ const MIMES_TYPE = ["application/pdf"];
 
 export const defenseReportSchema = z.object({
   owner: z.string().refine((owner) => {
-    const ownerAsNumber = parseInt(owner);
-    return !(typeof ownerAsNumber === "number");
+    return !/\d/.test(owner);
   }),
   theme: z.string().max(1000),
   defense_date: z.iso.date(),

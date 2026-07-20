@@ -1,10 +1,4 @@
-import {
-  CircleAlert,
-  FileIcon,
-  FilePlusCorner,
-  Save,
-  Upload,
-} from "lucide-react";
+import { CircleAlert, FileIcon, Save, Upload } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {
   defenseReportSchema,
@@ -79,7 +73,9 @@ const DefenseReportCreate = () => {
 
   const handleDefenseReportFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files[0]);
+      if (existingDefenseReport?.file_url) {
+        reset({ file: undefined });
+      }
       setValue("file", e.target.files[0], { shouldValidate: true });
       setDefenseReportFile(e.target.files[0]);
     } else {
@@ -280,34 +276,47 @@ const DefenseReportCreate = () => {
             ) : defenseReportFile ? (
               <div className="flex items-center py-2 px-4 border rounded gap-2">
                 <img src={png} className="md:w-10 md:h-10" />
-                <div>
-                  <p className="text-nowrap text-ellipsis overflow-hidden">
-                    {defenseReportFile.name}
-                  </p>
-                  <p>{getFormatedFileSize(defenseReportFile.size)}</p>
+                <div className="truncate">
+                  <p>{defenseReportFile?.name}</p>
+                  <p>{getFormatedFileSize(defenseReportFile?.size)}</p>
                 </div>
               </div>
             ) : (
-              <div className="flex items-center gap-2 p-3 bg-gray-100 rounded mb-3">
-                <FileIcon size={16} />
+              existingDefenseReport?.file_url && (
+                <div>
+                  <div className="flex items-center gap-2 p-3 bg-gray-100 rounded mb-3">
+                    <FileIcon size={40} />
 
-                <a
-                  href={existingDefenseReport.file_url}
-                  target="_blank"
-                  className="text-blue-500 underline text-sm"
-                >
-                  Voir le fichier actuel
-                </a>
-                <span className="text-gray-400 text-xs">
-                  — Cliquez ci-dessous pour le remplacer
-                </span>
-              </div>
+                    <a
+                      href={existingDefenseReport?.file_url}
+                      target="_blank"
+                      className="text-blue-500 underline text-sm"
+                    >
+                      Voir le fichier actuel
+                    </a>
+                  </div>
+                  <input
+                    {...register("file")}
+                    type="file"
+                    name="file"
+                    onChange={handleDefenseReportFileChange}
+                    className="hidden"
+                    ref={defenseReportInput}
+                  />
+                  <button
+                    onClick={handleFileClick}
+                    className="border border-black p-2 rounded text-[#c41c2d] w-full text-center cursor-pointer"
+                  >
+                    Remplacer le ficher du PV
+                  </button>
+                </div>
+              )
             )}
           </div>
         </div>
         <button
           type="submit"
-          className="bg-primary text-white rounded-lg cursor-pointer px-3 py-2 flex gap-2 items-center"
+          className="bg-primary text-white rounded-lg cursor-pointer px-3 py-2 flex gxap-2 items-center"
         >
           <Save />
           Enregistrer le PV de Soutenance

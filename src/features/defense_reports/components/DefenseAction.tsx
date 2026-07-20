@@ -36,10 +36,7 @@ const DefenseAction = ({
         }}
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem
-          className="flex"
-          onClick={() => navigate(`/secretary/professor/${row.id}`)}
-        >
+        <DropdownMenuItem className="flex">
           <Upload /> Télécharger PV
         </DropdownMenuItem>
         <DropdownMenuItem
