@@ -8,12 +8,10 @@ import {
 } from "./api";
 import { useNotify } from "@/hooks/useNotify";
 import type { AxiosError } from "axios";
-import { useParams } from "react-router-dom";
 
-export const useDefense = () => {
+export const useDefense = (defense_id?: string) => {
   const { notify } = useNotify();
   const queryClient = useQueryClient();
-  const { defense_id } = useParams<{ defense_id: string }>();
 
   const fetchAllDefense = useQuery({
     queryKey: ["defense_reports"],

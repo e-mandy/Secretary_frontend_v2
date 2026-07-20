@@ -22,6 +22,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { SearchAlert } from "lucide-react";
+import { useDefense } from "@/features/defense_reports/api/useDefense";
+import Spinner from "./Spinner";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,6 +36,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const defenseReportsIsPending = useDefense().fetchAllDefense.isPending;
 
   const table = useReactTable({
     data,
@@ -72,7 +75,20 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {defenseReportsIsPending ? (
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                  <div className="w-fit mx-auto py-4">
+                    <Spinner
+                      width="40"
+                      height="40"
+                      color="#c41c2d"
+                      visible={true}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -93,8 +109,9 @@ export function DataTable<TData, TValue>({
                 <TableCell colSpan={columns.length} className="w-full py-10">
                   <div className="w-fit mx-auto flex flex-col items-center">
                     <SearchAlert size={100} className="mb-4" />
-                    <h2 className="font-bold text-xl">Aucun Résultat trouvé</h2>
-                    <p></p>
+                    <h2 className="font-bold text-xl">
+                      Aucun PV de soutenance trouvé
+                    </h2>
                   </div>
                 </TableCell>
               </TableRow>

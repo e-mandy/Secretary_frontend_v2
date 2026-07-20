@@ -16,6 +16,7 @@ import png from "../../../assets/icons/pdf.png";
 import { getFormatedFileSize } from "@/utils/getFormatedFileSize";
 import { useDefense } from "../api/useDefense";
 import { useNavigate, useParams } from "react-router-dom";
+import Spinner from "@/components/Spinner";
 
 const DefenseReportCreate = () => {
   const { defense_id } = useParams<{ defense_id: string }>();
@@ -34,10 +35,12 @@ const DefenseReportCreate = () => {
   const [defenseReportFile, setDefenseReportFile] = useState<File | null>(null);
 
   const {
-    createDefenseReport: { mutate, isSuccess },
-    getDefenseReport: { data: existingDefenseReport },
+    createDefenseReport: { mutate, isSuccess, isPending },
+    getDefenseReport,
     updateDefenseReport,
-  } = useDefense();
+  } = useDefense(defense_id);
+
+  const existingDefenseReport = getDefenseReport.data;
 
   const isEditing = defense_id ? true : false;
 
@@ -110,7 +113,7 @@ const DefenseReportCreate = () => {
                     />
                   </div>
                   {errors.owner?.message && (
-                    <span className="error-message">
+                    <span className="text-[#c41c2d]">
                       {errors?.owner?.message}
                     </span>
                   )}
@@ -132,7 +135,7 @@ const DefenseReportCreate = () => {
                     />
                   </div>
                   {errors.note?.message && (
-                    <span className="error-message">
+                    <span className="text-[#c41c2d]">
                       {errors?.note?.message}
                     </span>
                   )}
@@ -154,6 +157,11 @@ const DefenseReportCreate = () => {
                     id="theme"
                     placeholder="e.g. Mise en place d'un SOC"
                   ></textarea>
+                  {errors.theme?.message && (
+                    <span className="text-[#c41c2d]">
+                      {errors?.theme?.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -169,16 +177,18 @@ const DefenseReportCreate = () => {
                     name="filiere"
                     id="filiere"
                   >
-                    <option disabled>Sélectionnez une filière</option>
+                    <option disabled selected>
+                      Sélectionnez une filière
+                    </option>
                     <option value="Master">Master</option>
                     <option value="Licence">Licence</option>
                   </select>
-                  {errors.filiere?.message && (
-                    <span className="error-message">
-                      {errors?.filiere?.message}
-                    </span>
-                  )}
                 </div>
+                {errors.filiere?.message && (
+                  <span className="text-[#c41c2d]">
+                    {errors?.filiere?.message}
+                  </span>
+                )}
               </div>
               <div className="my-3 flex-1">
                 <label htmlFor="theme" className="font-semibold">
@@ -199,12 +209,12 @@ const DefenseReportCreate = () => {
                     <option value="SRC">Système, Réseaux et Cloud</option>
                     <option value="IA">Intélligence Artificielle</option>
                   </select>
-                  {errors.option?.message && (
-                    <span className="error-message">
-                      {errors?.option?.message}
-                    </span>
-                  )}
                 </div>
+                {errors.option?.message && (
+                  <span className="text-[#c41c2d]">
+                    {errors?.option?.message}
+                  </span>
+                )}
               </div>
               <div className="my-3 flex-1">
                 <label htmlFor="defense_date" className="font-semibold">
@@ -220,7 +230,7 @@ const DefenseReportCreate = () => {
                   />
                 </div>
                 {errors.defense_date?.message && (
-                  <span className="error-message">
+                  <span className="text-[#c41c2d]">
                     {errors?.defense_date?.message}
                   </span>
                 )}
@@ -244,13 +254,10 @@ const DefenseReportCreate = () => {
               <div className="border border-[#c41c2d] rounded px-2 py-4">
                 <h4 className="font-semibold">Document PDF</h4>
                 <p className="text-xs">Max, 4 Mo</p>
-                <div className="flex items-center gap-2 mt-4">
-                  <div className="border p-1 items-center justify-center w-fit rounded">
-                    <FilePlusCorner />
-                  </div>
+                <div className="flex items-center gap-2 mt-4 mb-1">
                   <div
                     onClick={handleFileClick}
-                    className="border flex items-center gap-1 w-fit py-1 px-1 rounded cursor-pointer"
+                    className="border border-black flex items-center md:gap-3 w-fit py-1 px-2 rounded cursor-pointer"
                   >
                     <input
                       {...register("file")}
@@ -265,7 +272,9 @@ const DefenseReportCreate = () => {
                   </div>
                 </div>
                 {errors.file?.message && (
-                  <span className="error-message">{errors?.file?.message}</span>
+                  <span className="text-[#c41c2d]">
+                    {errors?.file?.message}
+                  </span>
                 )}
               </div>
             ) : defenseReportFile ? (
@@ -302,6 +311,9 @@ const DefenseReportCreate = () => {
         >
           <Save />
           Enregistrer le PV de Soutenance
+          {isPending && (
+            <Spinner width="20" height="20" color="#c41c2d" visible={true} />
+          )}
         </button>
       </form>
     </div>

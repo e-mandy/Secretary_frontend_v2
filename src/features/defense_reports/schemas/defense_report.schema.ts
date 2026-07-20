@@ -3,7 +3,10 @@ import z from "zod";
 const MIMES_TYPE = ["application/pdf"];
 
 export const defenseReportSchema = z.object({
-  owner: z.string(),
+  owner: z.string().refine((owner) => {
+    const ownerAsNumber = parseInt(owner);
+    return !(typeof ownerAsNumber === "number");
+  }),
   theme: z.string().max(1000),
   defense_date: z.iso.date(),
   note: z.number().min(10).max(20),
