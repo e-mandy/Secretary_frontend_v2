@@ -13,7 +13,7 @@ export type ProfessorDocumentType = {
 const ProfessorDocument = ({ ...data }: ProfessorDocumentType) => {
   const { download } = useDownload();
   const handleDownload = () => {
-    download(data?.id);
+    download(`/documents/${data?.id}/download`);
   };
   return (
     <div className="py-3 px-3 rounded-lg shadow-lg bg-white w-fit md:w-full">

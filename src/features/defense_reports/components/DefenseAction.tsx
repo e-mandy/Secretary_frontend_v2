@@ -10,6 +10,7 @@ import { Edit, MoreHorizontal, Trash, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { DefenseReportProps } from "@/types/defense.types";
 import { useDefense } from "../api/useDefense";
+import { useDownload } from "@/features/professor/api/useDownload";
 
 const DefenseAction = ({
   row,
@@ -20,6 +21,8 @@ const DefenseAction = ({
     deleteDefenseReport: { mutate },
   } = useDefense();
   const navigate = useNavigate();
+  const { download } = useDownload();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,7 +39,10 @@ const DefenseAction = ({
         }}
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem className="flex">
+        <DropdownMenuItem
+          onClick={() => download(`/defense-reports/${row.id}/download`)}
+          className="flex"
+        >
           <Upload /> Télécharger PV
         </DropdownMenuItem>
         <DropdownMenuItem
