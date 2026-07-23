@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import type { DefenseReportProps } from "@/types/defense.types";
 import { useDefense } from "../api/useDefense";
 import { useDownload } from "@/features/professor/api/useDownload";
+import type { MouseEvent } from "react";
 
 const DefenseAction = ({
   row,
@@ -40,20 +41,29 @@ const DefenseAction = ({
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
-          onClick={() => download(`/defense-reports/${row.id}/download`)}
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            download(`/defense-reports/${row.id}/download`);
+          }}
           className="flex"
         >
           <Upload /> Télécharger PV
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => navigate(`/secretary/defense/${row.id}/edit`)}
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            navigate(`/secretary/defense/${row.id}/edit`);
+          }}
         >
           <Edit />
           Modifier
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-red-500"
-          onClick={() => mutate(row.id)}
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            mutate(row.id);
+          }}
         >
           <Trash />
           Supprimer{" "}

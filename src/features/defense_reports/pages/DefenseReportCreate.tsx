@@ -252,14 +252,6 @@ const DefenseReportCreate = () => {
                     onClick={handleFileClick}
                     className="border border-black flex items-center md:gap-3 w-fit py-1 px-2 rounded cursor-pointer"
                   >
-                    <input
-                      {...register("file")}
-                      type="file"
-                      name="file"
-                      onChange={handleDefenseReportFileChange}
-                      className="hidden"
-                      ref={defenseReportInput}
-                    />
                     <Upload />
                     <p>Ajouter un fichier</p>
                   </div>
@@ -305,6 +297,7 @@ const DefenseReportCreate = () => {
             />
             <button
               onClick={handleFileClick}
+              type="button"
               className="border border-black p-2 rounded text-[#c41c2d] w-full text-center cursor-pointer"
             >
               Remplacer le ficher du PV

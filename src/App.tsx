@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import ProfessorView from "./features/professor/components/ProfessorView";
 import DefenseReports from "./features/defense_reports/pages/DefenseReports";
 import DefenseReportCreate from "./features/defense_reports/pages/DefenseReportCreate";
+import DefenseReportView from "./features/defense_reports/pages/DefenseReportView";
 
 function App() {
   return (
@@ -44,6 +45,10 @@ function App() {
           <Route
             path="/secretary/defense/:defense_id/edit"
             element={<DefenseReportCreate />}
+          />
+          <Route
+            path="/secretary/defense/:defense_id/view"
+            element={<DefenseReportView />}
           />
         </Route>
       </Routes>

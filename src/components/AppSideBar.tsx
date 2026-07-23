@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "../features/auth/store/auth.store";
+import { Link } from "react-router-dom";
 
 const AppSideBar = () => {
   const navItems = [
@@ -61,10 +62,10 @@ const AppSideBar = () => {
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild className="h-12">
-                    <a href={item.href}>
+                    <Link to={item.href}>
                       <item.icon className="h-6 w-6" />
                       <span className="text-base">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
