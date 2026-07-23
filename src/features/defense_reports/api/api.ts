@@ -68,3 +68,14 @@ export const editDefenseReport = async ({
 
   return result.data.data;
 };
+
+export const getPdfUrl = async (id: string) => {
+  const result = await axiosPrivateInstance.get(
+    `/secretary/defense/${id}/preview`,
+    {
+      responseType: "arraybuffer",
+    },
+  );
+
+  return result.data;
+};

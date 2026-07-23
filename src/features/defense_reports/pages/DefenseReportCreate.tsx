@@ -82,8 +82,10 @@ const DefenseReportCreate = () => {
 
   return (
     <div>
-      <h1 className="font-extrabold text-3xl mb-2">
-        Ajout d'un PV de Soutenance
+      <h1 className="font-extrabold text-3xl mb-4">
+        {isEditing
+          ? "Modification d'un PV de Soutenance"
+          : "Ajout d'un PV de Soutenance"}
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div className="flex md:gap-10">
@@ -244,7 +246,7 @@ const DefenseReportCreate = () => {
               </p>
             </div>
             {!isEditing && !defenseReportFile ? (
-              <div className="border border-[#c41c2d] rounded px-2 py-4">
+              <div className="border border-[#c41c2d] rounded px-2 py-4 mb-4">
                 <h4 className="font-semibold">Document PDF</h4>
                 <p className="text-xs">Max, 4 Mo</p>
                 <div className="flex items-center gap-2 mt-4 mb-1">

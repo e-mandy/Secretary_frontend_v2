@@ -13,6 +13,12 @@ import ProfessorView from "./features/professor/components/ProfessorView";
 import DefenseReports from "./features/defense_reports/pages/DefenseReports";
 import DefenseReportCreate from "./features/defense_reports/pages/DefenseReportCreate";
 import DefenseReportView from "./features/defense_reports/pages/DefenseReportView";
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
 
 function App() {
   return (

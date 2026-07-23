@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Edit, MoreHorizontal, Trash, Upload } from "lucide-react";
+import { Edit, MoreHorizontal, Trash, Upload, View } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { DefenseReportProps } from "@/types/defense.types";
 import { useDefense } from "../api/useDefense";
@@ -40,6 +40,15 @@ const DefenseAction = ({
         }}
       >
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          onClick={(e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            navigate(`/secretary/defense/${row.id}/view`);
+          }}
+          className="flex"
+        >
+          <View /> Voir PV
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation();

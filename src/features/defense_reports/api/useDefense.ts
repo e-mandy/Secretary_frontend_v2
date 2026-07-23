@@ -5,6 +5,7 @@ import {
   editDefenseReport,
   fetchDefenseReport,
   getAll,
+  getPdfUrl,
 } from "./api";
 import { useNotify } from "@/hooks/useNotify";
 import type { AxiosError } from "axios";
@@ -65,11 +66,21 @@ export const useDefense = (defense_id?: string) => {
     },
   });
 
+  const fetchPdfUrl = useQuery({
+    queryKey: ["defense_pdf"],
+    queryFn: () => {
+      if (!defense_id) return;
+      return getPdfUrl(defense_id);
+    },
+    enabled: !!defense_id,
+  });
+
   return {
     fetchAllDefense,
     createDefenseReport,
     deleteDefenseReport,
     getDefenseReport,
     updateDefenseReport,
+    fetchPdfUrl,
   };
 };

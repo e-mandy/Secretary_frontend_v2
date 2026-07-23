@@ -24,7 +24,6 @@ import { useState } from "react";
 import { SearchAlert } from "lucide-react";
 import { useDefense } from "@/features/defense_reports/api/useDefense";
 import Spinner from "./Spinner";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | [];
