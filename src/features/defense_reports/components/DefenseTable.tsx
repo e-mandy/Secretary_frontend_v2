@@ -16,9 +16,11 @@ const DefenseTable = () => {
   };
 
   const filteredDefenseReports = data
-    ? data.filter((defense: DefenseReportType) => {
-        defense.owner.toLowerCase().includes(query);
-      })
+    ? query.trim() == ""
+      ? data
+      : data.filter((d: DefenseReportType) => {
+          return d.owner.toLowerCase().includes(query.toLowerCase());
+        })
     : [];
 
   return (
@@ -35,7 +37,7 @@ const DefenseTable = () => {
         </div>
       </div>
 
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={filteredDefenseReports} />
     </div>
   );
 };
